@@ -11,6 +11,6 @@
 window.BC_CONFIG = {
   url: 'https://wlnbumwuxvzjhppwbgww.supabase.co',
   chave: 'sb_publishable_RBkohX99zhc3r51RYJK66g_nhAdJIG6',
-  google: 'COLE_AQUI_A_CHAVE_DO_GOOGLE_MAPS',
+  google: 'AIzaSyBzA_zis6be7VG-t0WsKT_-aNwy_z24Pc8',
   pdf: 'campanha.pdf'
 };
