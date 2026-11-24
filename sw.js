@@ -1,5 +1,5 @@
 // Guarda o app no celular para ele abrir sem sinal. Com sinal, sempre busca a versão mais nova.
-const CACHE = 'black-corte-1-6-5-23-11-2026';
+const CACHE = 'black-corte-1-6-7-24-11-2026';
 const ARQUIVOS = ['./', 'index.html', 'config.js', 'supabase.js', 'manifest.webmanifest', 'icone-192.png', 'icone-512.png', 'icone-180.png'];
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(ARQUIVOS)).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
