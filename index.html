@@ -101,6 +101,12 @@ input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{out
 .pb{display:flex;gap:8px;margin-top:10px}
 .pb .b{flex:1}
 .pb .b:first-child{flex:0 0 auto}
+.pb.pb4{display:grid;grid-template-columns:1fr 1fr}
+.pb.pb4 .b:first-child{flex:none}
+.faixa-montar{display:flex;align-items:center;gap:8px;background:var(--at-suave);border:1px solid #EED9A6;border-radius:var(--raio);padding:8px 10px;margin:0 0 8px;font-size:14px;line-height:1.35}
+.faixa-montar svg{flex:none}
+.rola.camadas{margin-bottom:6px}
+.rola.camadas .chip{font-weight:600}
 .ctl{display:flex;align-items:center;gap:8px;margin-top:10px}
 .ctl .btn-ic{width:48px;height:44px;border:1.5px solid var(--borda)}
 .ctl .btn-ic:disabled{opacity:.35}
@@ -167,7 +173,7 @@ label.b{position:relative;cursor:pointer}
 .seg{display:flex;border:1.5px solid var(--azul);border-radius:var(--raio);overflow:hidden;margin-bottom:10px}
 .seg button{flex:1;min-height:44px;border:0;background:#fff;color:var(--azul);font-weight:600;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .seg button.at{background:var(--azul);color:#fff}
-.mapa-lugar{position:relative;height:min(52vh,440px);min-height:280px;border:1px solid var(--borda);border-radius:var(--raio);overflow:hidden;background:#E6E9F1;margin:0 0 8px}
+.mapa-lugar{position:relative;z-index:0;height:min(52vh,440px);min-height:280px;border:1px solid var(--borda);border-radius:var(--raio);overflow:hidden;background:#E6E9F1;margin:0 0 8px}
 .mapa-lugar.baixo{height:min(44vh,380px)}
 .mapa-lugar .vazio{padding-top:120px}
 .mapa-s{display:block;width:100%;height:100%;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
@@ -177,6 +183,7 @@ label.b{position:relative;cursor:pointer}
 .mapa-s .ps.pv circle{fill:var(--ok)}
 .mapa-s .ps.pa circle{fill:var(--atencao)}
 .mapa-s .ps.pc circle{fill:#8A90A6}
+.mapa-s .ps.px circle{fill:var(--erro)}
 .mapa-s .ps.pf circle{fill:#fff;stroke:#8A90A6}
 .mapa-s .ps.pr circle{fill:#00838F}
 .mapa-s .ps.pb circle{fill:#fff;stroke:var(--azul)}
@@ -193,6 +200,7 @@ label.b{position:relative;cursor:pointer}
 .pino.pv{background:var(--ok)}
 .pino.pa{background:var(--atencao)}
 .pino.pc{background:#8A90A6}
+.pino.px{background:var(--erro)}
 .pino.pf{background:#fff;border-color:#8A90A6}
 .pino.pr{background:#00838F}
 .pino.pb{background:#fff;border-color:var(--azul)}
@@ -209,6 +217,7 @@ label.b{position:relative;cursor:pointer}
 .leg i.pv{background:var(--ok);border-color:var(--ok)}
 .leg i.pa{background:var(--atencao);border-color:var(--atencao)}
 .leg i.pc{background:#8A90A6;border-color:#8A90A6}
+.leg i.px{background:var(--erro);border-color:var(--erro)}
 .leg i.pf{background:#fff;border-color:#8A90A6}
 .leg i.pr{background:#00838F;border-color:#00838F}
 .leg i.pb{background:#fff;border-color:var(--azul)}
@@ -238,6 +247,31 @@ label.b{position:relative;cursor:pointer}
 .orc-res .orc-tot b{display:inline;font-size:17px;margin:0}
 .lk{color:var(--azul);font-weight:600;font-size:15px;text-decoration:underline;display:inline-block;padding:10px 0}
 .entrar .sub-e{font-size:17px;margin:0 0 10px}
+/* 1.6.8: o filtro de Pontos e do mapa: um botão com seta que abre a lista com caixinhas */
+.linha-filtro{position:relative;display:flex;gap:8px;align-items:center;margin:0 0 8px}
+.linha-filtro .chip{flex:none}
+.filtro{flex:1;min-width:0}
+.filtro-bt{width:100%;justify-content:flex-start;border-color:var(--borda);color:var(--tinta)}
+.filtro-bt .t{flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.filtro-bt.at{border-color:var(--azul);background:var(--azul-suave);color:var(--azul)}
+.filtro-fundo{position:fixed;inset:0;z-index:40;background:rgba(27,29,41,.18)}
+.filtro-lista{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:41;background:#fff;border:1px solid var(--borda);border-radius:var(--raio);box-shadow:0 10px 28px rgba(27,29,41,.18);max-height:min(64vh,540px);overflow-y:auto;overscroll-behavior:contain}
+.filtro-op{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;padding:0 14px;background:none;border:0;border-bottom:1px solid #EEF0F5;font-size:16px;text-align:left;color:var(--tinta)}
+.filtro-op .t{flex:1}
+.filtro-op.at{color:var(--azul);font-weight:600}
+.filtro-op .n{color:var(--suave);font-weight:400;font-size:14px}
+.filtro-gr{padding:12px 14px 4px;font-size:13px;font-weight:600;color:var(--suave)}
+.filtro-pe{position:sticky;bottom:0;display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid var(--borda)}
+.filtro-pe .b{flex:1}
+/* 1.7: clientes da Fabril no mapa (rosa: ativo; contorno rosa: inativo) e nos selos */
+.mapa-s .ps.pk circle{fill:#C2185B}
+.mapa-s .ps.pki circle{fill:#fff;stroke:#C2185B;stroke-width:3}
+.pino.pk{background:#C2185B}
+.pino.pki{background:#fff;border:3px solid #C2185B}
+.leg i.pk{background:#C2185B;border-color:#C2185B}
+.leg i.pki{background:#fff;border:3px solid #C2185B}
+.selo.ck{background:#FCE4EC;color:#8E1245}
+.selo.cki{background:#fff;color:#8E1245;box-shadow:inset 0 0 0 1px #E8A3BE}
 </style>
 </head>
 <body>
@@ -250,7 +284,7 @@ const LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAACiCAYAAAAOYrmc
 const LOGO_JPG = {"w": 420, "h": 162, "b64": "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"};
 const QR_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 49 49\" shape-rendering=\"crispEdges\" role=\"img\" aria-label=\"QR do WhatsApp da Fabril\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path fill=\"#000\" d=\"M4 4h7v1h-7zM12 4h2v1h-2zM16 4h2v1h-2zM20 4h1v1h-1zM23 4h1v1h-1zM27 4h1v1h-1zM30 4h1v1h-1zM33 4h1v1h-1zM35 4h1v1h-1zM38 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h3v1h-3zM16 5h3v1h-3zM21 5h1v1h-1zM25 5h3v1h-3zM30 5h1v1h-1zM34 5h1v1h-1zM36 5h1v1h-1zM38 5h1v1h-1zM44 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM14 6h1v1h-1zM19 6h1v1h-1zM22 6h5v1h-5zM29 6h1v1h-1zM31 6h2v1h-2zM34 6h1v1h-1zM38 6h1v1h-1zM40 6h3v1h-3zM44 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h3v1h-3zM16 7h1v1h-1zM19 7h2v1h-2zM22 7h1v1h-1zM24 7h3v1h-3zM31 7h3v1h-3zM38 7h1v1h-1zM40 7h3v1h-3zM44 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h2v1h-2zM25 8h1v1h-1zM29 8h3v1h-3zM33 8h4v1h-4zM38 8h1v1h-1zM40 8h3v1h-3zM44 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM13 9h1v1h-1zM15 9h5v1h-5zM23 9h2v1h-2zM26 9h1v1h-1zM28 9h1v1h-1zM30 9h1v1h-1zM33 9h3v1h-3zM38 9h1v1h-1zM44 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM34 10h1v1h-1zM36 10h1v1h-1zM38 10h7v1h-7zM12 11h2v1h-2zM16 11h3v1h-3zM21 11h2v1h-2zM26 11h3v1h-3zM33 11h2v1h-2zM4 12h1v1h-1zM6 12h2v1h-2zM9 12h3v1h-3zM16 12h1v1h-1zM18 12h2v1h-2zM21 12h1v1h-1zM23 12h4v1h-4zM28 12h1v1h-1zM32 12h3v1h-3zM36 12h1v1h-1zM38 12h1v1h-1zM41 12h1v1h-1zM43 12h2v1h-2zM5 13h1v1h-1zM15 13h4v1h-4zM23 13h1v1h-1zM25 13h4v1h-4zM30 13h1v1h-1zM34 13h7v1h-7zM42 13h3v1h-3zM4 14h1v1h-1zM6 14h2v1h-2zM9 14h2v1h-2zM12 14h3v1h-3zM16 14h1v1h-1zM19 14h1v1h-1zM24 14h2v1h-2zM27 14h1v1h-1zM30 14h1v1h-1zM32 14h3v1h-3zM37 14h1v1h-1zM39 14h2v1h-2zM42 14h2v1h-2zM4 15h1v1h-1zM6 15h1v1h-1zM8 15h1v1h-1zM14 15h4v1h-4zM23 15h2v1h-2zM26 15h2v1h-2zM29 15h2v1h-2zM34 15h1v1h-1zM36 15h3v1h-3zM44 15h1v1h-1zM4 16h3v1h-3zM10 16h2v1h-2zM13 16h1v1h-1zM15 16h1v1h-1zM18 16h4v1h-4zM29 16h1v1h-1zM31 16h1v1h-1zM35 16h1v1h-1zM37 16h1v1h-1zM39 16h1v1h-1zM41 16h2v1h-2zM44 16h1v1h-1zM5 17h2v1h-2zM8 17h2v1h-2zM12 17h2v1h-2zM17 17h2v1h-2zM20 17h2v1h-2zM26 17h2v1h-2zM30 17h1v1h-1zM33 17h1v1h-1zM35 17h1v1h-1zM37 17h2v1h-2zM41 17h1v1h-1zM43 17h2v1h-2zM4 18h3v1h-3zM9 18h3v1h-3zM14 18h1v1h-1zM16 18h1v1h-1zM18 18h4v1h-4zM26 18h1v1h-1zM28 18h2v1h-2zM32 18h1v1h-1zM35 18h2v1h-2zM38 18h1v1h-1zM42 18h1v1h-1zM44 18h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM12 19h1v1h-1zM14 19h2v1h-2zM17 19h4v1h-4zM22 19h5v1h-5zM28 19h1v1h-1zM32 19h1v1h-1zM34 19h2v1h-2zM38 19h1v1h-1zM41 19h1v1h-1zM43 19h2v1h-2zM5 20h1v1h-1zM8 20h6v1h-6zM16 20h2v1h-2zM19 20h2v1h-2zM23 20h7v1h-7zM31 20h2v1h-2zM34 20h1v1h-1zM40 20h2v1h-2zM6 21h2v1h-2zM9 21h1v1h-1zM12 21h1v1h-1zM15 21h4v1h-4zM21 21h2v1h-2zM26 21h3v1h-3zM31 21h2v1h-2zM37 21h1v1h-1zM39 21h1v1h-1zM41 21h1v1h-1zM43 21h1v1h-1zM9 22h4v1h-4zM14 22h1v1h-1zM17 22h2v1h-2zM20 22h2v1h-2zM24 22h2v1h-2zM29 22h6v1h-6zM36 22h1v1h-1zM40 22h1v1h-1zM43 22h1v1h-1zM4 23h1v1h-1zM6 23h1v1h-1zM9 23h1v1h-1zM12 23h1v1h-1zM15 23h1v1h-1zM18 23h2v1h-2zM24 23h1v1h-1zM26 23h5v1h-5zM32 23h2v1h-2zM39 23h1v1h-1zM41 23h3v1h-3zM6 24h2v1h-2zM10 24h1v1h-1zM12 24h2v1h-2zM15 24h2v1h-2zM20 24h1v1h-1zM22 24h2v1h-2zM26 24h2v1h-2zM29 24h2v1h-2zM32 24h4v1h-4zM38 24h1v1h-1zM40 24h1v1h-1zM42 24h3v1h-3zM4 25h1v1h-1zM11 25h2v1h-2zM14 25h2v1h-2zM17 25h1v1h-1zM19 25h1v1h-1zM22 25h3v1h-3zM26 25h3v1h-3zM31 25h2v1h-2zM35 25h2v1h-2zM38 25h1v1h-1zM40 25h1v1h-1zM43 25h2v1h-2zM7 26h1v1h-1zM10 26h2v1h-2zM13 26h1v1h-1zM16 26h5v1h-5zM22 26h1v1h-1zM27 26h2v1h-2zM32 26h2v1h-2zM37 26h1v1h-1zM40 26h4v1h-4zM5 27h1v1h-1zM9 27h1v1h-1zM11 27h1v1h-1zM14 27h1v1h-1zM16 27h3v1h-3zM20 27h1v1h-1zM23 27h2v1h-2zM26 27h1v1h-1zM29 27h2v1h-2zM34 27h1v1h-1zM36 27h3v1h-3zM40 27h1v1h-1zM43 27h2v1h-2zM4 28h1v1h-1zM8 28h5v1h-5zM16 28h7v1h-7zM24 28h1v1h-1zM29 28h1v1h-1zM31 28h1v1h-1zM33 28h3v1h-3zM42 28h1v1h-1zM44 28h1v1h-1zM5 29h1v1h-1zM7 29h1v1h-1zM11 29h1v1h-1zM13 29h2v1h-2zM16 29h2v1h-2zM19 29h1v1h-1zM22 29h3v1h-3zM26 29h1v1h-1zM31 29h3v1h-3zM35 29h4v1h-4zM41 29h2v1h-2zM44 29h1v1h-1zM4 30h1v1h-1zM6 30h1v1h-1zM10 30h2v1h-2zM15 30h3v1h-3zM19 30h6v1h-6zM26 30h1v1h-1zM28 30h3v1h-3zM33 30h1v1h-1zM35 30h2v1h-2zM38 30h2v1h-2zM41 30h1v1h-1zM43 30h2v1h-2zM5 31h2v1h-2zM12 31h4v1h-4zM18 31h3v1h-3zM24 31h2v1h-2zM28 31h1v1h-1zM30 31h3v1h-3zM35 31h4v1h-4zM40 31h2v1h-2zM43 31h2v1h-2zM8 32h3v1h-3zM15 32h2v1h-2zM18 32h1v1h-1zM20 32h1v1h-1zM26 32h1v1h-1zM29 32h3v1h-3zM35 32h2v1h-2zM40 32h2v1h-2zM5 33h1v1h-1zM8 33h1v1h-1zM11 33h4v1h-4zM16 33h1v1h-1zM20 33h1v1h-1zM23 33h1v1h-1zM25 33h1v1h-1zM28 33h5v1h-5zM34 33h4v1h-4zM39 33h1v1h-1zM43 33h1v1h-1zM4 34h1v1h-1zM7 34h1v1h-1zM10 34h2v1h-2zM18 34h2v1h-2zM22 34h1v1h-1zM24 34h1v1h-1zM26 34h4v1h-4zM31 34h2v1h-2zM37 34h4v1h-4zM43 34h1v1h-1zM6 35h1v1h-1zM8 35h1v1h-1zM13 35h2v1h-2zM18 35h1v1h-1zM20 35h2v1h-2zM24 35h1v1h-1zM28 35h1v1h-1zM32 35h2v1h-2zM36 35h1v1h-1zM38 35h1v1h-1zM41 35h3v1h-3zM5 36h6v1h-6zM14 36h1v1h-1zM19 36h1v1h-1zM22 36h2v1h-2zM25 36h1v1h-1zM27 36h1v1h-1zM30 36h1v1h-1zM32 36h13v1h-13zM12 37h2v1h-2zM15 37h1v1h-1zM18 37h1v1h-1zM20 37h1v1h-1zM22 37h3v1h-3zM27 37h1v1h-1zM34 37h1v1h-1zM36 37h1v1h-1zM40 37h1v1h-1zM44 37h1v1h-1zM4 38h7v1h-7zM12 38h3v1h-3zM16 38h1v1h-1zM18 38h1v1h-1zM21 38h1v1h-1zM24 38h5v1h-5zM30 38h1v1h-1zM32 38h5v1h-5zM38 38h1v1h-1zM40 38h2v1h-2zM4 39h1v1h-1zM10 39h1v1h-1zM12 39h1v1h-1zM17 39h1v1h-1zM20 39h1v1h-1zM22 39h2v1h-2zM25 39h2v1h-2zM29 39h2v1h-2zM32 39h1v1h-1zM35 39h2v1h-2zM40 39h1v1h-1zM44 39h1v1h-1zM4 40h1v1h-1zM6 40h3v1h-3zM10 40h1v1h-1zM13 40h2v1h-2zM16 40h3v1h-3zM20 40h1v1h-1zM22 40h5v1h-5zM31 40h1v1h-1zM33 40h1v1h-1zM36 40h5v1h-5zM42 40h3v1h-3zM4 41h1v1h-1zM6 41h3v1h-3zM10 41h1v1h-1zM12 41h1v1h-1zM14 41h1v1h-1zM19 41h5v1h-5zM31 41h1v1h-1zM40 41h1v1h-1zM42 41h2v1h-2zM4 42h1v1h-1zM6 42h3v1h-3zM10 42h1v1h-1zM12 42h1v1h-1zM15 42h1v1h-1zM17 42h2v1h-2zM20 42h1v1h-1zM23 42h2v1h-2zM29 42h2v1h-2zM33 42h3v1h-3zM39 42h1v1h-1zM42 42h3v1h-3zM4 43h1v1h-1zM10 43h1v1h-1zM13 43h1v1h-1zM15 43h4v1h-4zM21 43h2v1h-2zM25 43h1v1h-1zM27 43h2v1h-2zM30 43h1v1h-1zM34 43h1v1h-1zM38 43h1v1h-1zM40 43h2v1h-2zM43 43h1v1h-1zM4 44h7v1h-7zM12 44h1v1h-1zM17 44h1v1h-1zM22 44h1v1h-1zM25 44h1v1h-1zM27 44h4v1h-4zM34 44h4v1h-4zM43 44h1v1h-1z\"/></svg>";
 /* Black Corte — app de campo da campanha (Fabril). Página estática: os dados ficam no Supabase, atrás do login. */
-const VERSAO = '1.6.7 (24/11/2026)';
+const VERSAO = '1.7 (25/11/2026)';
 const CFG = window.BC_CONFIG || {};
 const QS = new URLSearchParams(location.search);
 const TEM_CFG = /^https?:\/\//i.test(CFG.url || '') && !/COLE_AQUI/.test((CFG.url || '') + (CFG.chave || '')) && String(CFG.chave || '').length > 20;
@@ -405,12 +439,12 @@ function ordenar(pts, ini, fim) {
 }
 
 // ---------- dados na memória (cópia do que está no banco + o que ainda não subiu)
-const D = { usuario: null, pontos: {}, visitas: {}, rotas: {}, equipe: {}, fotos: {}, fila: [], cursor: {}, prefs: {}, sinc: { ativo: false, em: null, erro: '', sessao: false, rede: true, denovo: false } };
+const D = { usuario: null, pontos: {}, visitas: {}, rotas: {}, equipe: {}, fotos: {}, regras: {}, fila: [], cursor: {}, prefs: {}, sinc: { ativo: false, em: null, erro: '', sessao: false, rede: true, denovo: false } };
 const CHAVE = { vendedores: 'user_id' }, ONDE = { vendedores: 'equipe' };
 const chave = t => CHAVE[t] || 'id', cache = t => D[ONDE[t] || t];
-const COLS = { vendedores: 'user_id,nome,papel,ativo,email,criado_em,atualizado_em', pontos: '*', visitas: '*', rotas: '*', fotos: 'id,ponto_id,visita_id,tirada_em,por,por_nome,atualizado_em' };
+const COLS = { vendedores: 'user_id,nome,papel,ativo,email,criado_em,atualizado_em', pontos: '*', visitas: '*', rotas: '*', fotos: 'id,ponto_id,visita_id,tirada_em,por,por_nome,atualizado_em', regras: '*' };
 const TABELAS = ['vendedores', 'pontos', 'visitas', 'rotas', 'fotos'];
-const GUARDADOS = ['usuario', 'pontos', 'visitas', 'rotas', 'equipe', 'fotos', 'fila', 'cursor', 'prefs'];
+const GUARDADOS = ['usuario', 'pontos', 'visitas', 'rotas', 'equipe', 'fotos', 'regras', 'fila', 'cursor', 'prefs'];
 const salvar = (...ks) => ks.forEach(k => guarda.por(k, D[k]));
 let IDX = { v: {}, ufs: {} };
 function reindexar() {
@@ -463,6 +497,8 @@ function apiReal() {
         sai.push(...r.data); if (r.data.length < 1000) return sai;
       }
     },
+    // 1.7: a importação das notas numa chamada só (função importar_notas do comando 12): grava inteira ou nada
+    async importarNotas(novos, atual) { const r = await sb.rpc('importar_notas', { p_novos: novos, p_atual: atual }); if (r.error) throw erroApi(r.error, r.status); return r.data; },
     async gravar(t, modo, linha) {
       let r; const k = chave(t);
       if (modo === 'patch') { const c = Object.assign({}, linha); delete c[k]; r = await sb.from(t).update(c).eq(k, linha[k]); }
@@ -487,6 +523,7 @@ function apiDemo() {
     async temColuna() { return true; },
     async listar(t, cols, desde) { fora(); return desde ? [] : Object.values(cache(t)); },
     async gravar() { fora(); await new Promise(r => setTimeout(r, 200)); },
+    async importarNotas(novos, atual) { fora(); await new Promise(r => setTimeout(r, 300)); return { novos: novos.length, atualizados: atual.length }; },
     async fotoDados(id) { return fotoLer(id); },
     async somarGoogle(tipo, n) { fora(); const k = mesAgora() + '|' + tipo; D.gdemo = D.gdemo || {}; D.gdemo[k] = (D.gdemo[k] || 0) + n; return D.gdemo[k]; },
     async usoGoogle(mes) { fora(); return Object.keys(D.gdemo || {}).filter(k => k.startsWith(mes + '|')).map(k => ({ tipo: k.split('|')[1], n: D.gdemo[k] })); }
@@ -520,18 +557,19 @@ async function enviarFila() {
 }
 async function puxar(completo) {
   let mudou = false;
-  for (const t of TABELAS) {
-    const tudo = completo || t === 'vendedores';   // a equipe é pequena e muda por exclusão: vem sempre inteira
+  for (const t of TABELAS.concat(temRegras() ? ['regras'] : [])) {   // 1.7: as Regras só depois do comando 12
+    const tudo = completo || t === 'vendedores' || t === 'regras';   // a equipe e as Regras são pequenas: vêm sempre inteiras
     const desde = tudo ? null : D.cursor[t];
     const ls = await api.listar(t, COLS[t], desde ? new Date(Date.parse(desde) - 120000).toISOString() : null);
     if (t === 'vendedores') conferirAcesso(ls);
+    if (t === 'pontos' && ls.length && Object.prototype.hasOwnProperty.call(ls[0], 'carteira_id') && !(D.prefs.cols && D.prefs.cols['pontos.carteira_id'])) { D.prefs.cols = D.prefs.cols || {}; D.prefs.cols['pontos.carteira_id'] = true; salvar('prefs'); }
     const c = tudo ? {} : cache(t), k = chave(t); let max = desde || '';
     for (const l of ls) { const a = c[l[k]]; if (!a || a._pend || a.atualizado_em !== l.atualizado_em) { c[l[k]] = l; mudou = true; } if ((l.atualizado_em || '') > max) max = l.atualizado_em; }
     if (tudo) { if (completo || JSON.stringify(cache(t)) !== JSON.stringify(c)) mudou = true; D[ONDE[t] || t] = c; }
     if (max) D.cursor[t] = max;
   }
   for (const op of D.fila) aplicarOp(op);
-  if (mudou) { reindexar(); salvar('pontos', 'visitas', 'rotas', 'equipe', 'fotos', 'cursor'); }
+  if (mudou) { reindexar(); salvar('pontos', 'visitas', 'rotas', 'equipe', 'fotos', 'regras', 'cursor'); }
 }
 let tSinc = null;
 function agendarSinc(ms) { clearTimeout(tSinc); tSinc = setTimeout(() => sincronizar(), ms || 0); }
@@ -609,10 +647,12 @@ function conferirPraca(g) {
   F.sugUf = outra && md < 60000 && aqui > 100000 ? ufDe(outra) : null;
 }
 const ufDaRota = r => { for (const i of r.paradas || []) { const p = D.pontos[i]; if (p) return ufDe(p); } return null; };
-const naRota = p => p.situacao_rota === 'Na rota';
+// 1.7: cliente ativo sai da rota (menos quem comprou na campanha, que segue a recompra); o "cliente ativo" da lista que passou de 90 dias sem comprar volta para a rota
+const naRotaLista = p => p.situacao_rota === 'Na rota' || (p.situacao_rota === 'Fora da rota — cliente ativo' && statusCliente(p) === 'inativo');
+const naRota = p => naRotaLista(p) && !foraPorSerCliente(p);
 const ehRede = p => /grande rede/i.test(p.situacao_rota || '');   // loja de grande rede de supermercado: fica fora da rota, mas tem filtro e pino próprios
 // o porquê de estar fora da rota, para o selo: "Fora da rota — fechado no Google" vira "fechado no Google"
-const porqueFora = p => ehRede(p) ? 'grande rede' : ((/—\s*(.+)$/.exec(p.situacao_rota || '') || [])[1] || 'fora');
+const porqueFora = p => ehRede(p) ? 'grande rede' : foraPorSerCliente(p) ? 'cliente ativo' : ((/—\s*(.+)$/.exec(p.situacao_rota || '') || [])[1] || 'fora');
 function situacao(p) {
   const vs = IDX.v[p.id] || [], u = vs[vs.length - 1];
   if (!u) return { c: 'pendente', t: 'Pendente' };
@@ -634,7 +674,7 @@ const temEncerrar = () => MODO === 'demo' || !!(D.prefs.cols && D.prefs.cols['ro
 function provarColunas() {
   if (MODO !== 'real' || D.sinc.provou) return; D.sinc.provou = true;
   const cs = D.prefs.cols = D.prefs.cols || {};
-  [['visitas', 'voltar_hora', temHora], ['rotas', 'encerrada_em', temEncerrar]].forEach(([t, c, ja]) => { if (ja()) return; api.temColuna(t, c).then(ok => { if (ok) { cs[t + '.' + c] = true; salvar('prefs'); } }).catch(() => {}); });
+  [['visitas', 'voltar_hora', temHora], ['rotas', 'encerrada_em', temEncerrar], ['pontos', 'carteira_id', temClientes], ['regras', 'id', temRegras]].forEach(([t, c, ja]) => { if (ja()) return; api.temColuna(t, c).then(ok => { if (ok) { cs[t + '.' + c] = true; salvar('prefs'); } }).catch(() => {}); });
 }
 const todasRotasDoDia = () => { const u = ufAtual(); return Object.values(D.rotas).filter(r => r.dia === hoje() && !r.apagada && !encerrada(r) && (ufDaRota(r) || u) === u); };   // só as rotas da praça em que o celular está
 // o vendedor só vê a rota que ele montou ou em que vai junto; o gestor vê todas. Os pontos das outras rotas continuam fora das rotas novas (candidatos)
@@ -730,18 +770,20 @@ function prepararDemo() {
         origem: 'Exemplo', fonte: 'Dado de exemplo', confianca: 'Exemplo', observacao: 'Ponto de exemplo: não existe de verdade.' };
       p.nome_lista = p.nome;
       if (i === 3 || i === 20) p.cliente_fabril = 'Conferir';
-      if (i === 6 || i === 15 || i === 28) Object.assign(p, { cliente_fabril: 'Inativo', ultima_compra: '2026-05-13', razao_social: 'Empresa de Exemplo Ltda', notas_fiscais: 3 });
+      if (i === 6 || i === 15 || i === 28) Object.assign(p, { cliente_fabril: 'Inativo', ultima_compra: '2026-05-13', razao_social: 'Empresa de Exemplo Ltda', notas_fiscais: 3, cnpj: '9911111100' + String(i).padStart(2, '0') + '01' });
+      if (i === 6) Object.assign(p, { carteira_nome: 'Fulano', nota_vendedor: 'Fulano' });   // 1.7: cliente de um vendedor que não usa o app
+      if (i === 28) Object.assign(p, { carteira_id: 'demo-2', carteira_em: new Date(Date.now() - 50 * 864e5).toISOString() });
       if (i === 11) Object.assign(p, { lat: null, lng: null, localizacao: 'Sem coordenada' });
       if (i === 17) p.localizacao = 'Só a rua/área (bem aproximada)';
       if (i === 30) p.situacao_rota = 'Fora da rota — grande rede de supermercado';
-      if (i === 31) Object.assign(p, { situacao_rota: 'Fora da rota — cliente ativo', cliente_fabril: 'Ativo' });
+      if (i === 31) Object.assign(p, { situacao_rota: 'Fora da rota — cliente ativo', cliente_fabril: 'Ativo', ultima_compra: diaMais(hoje(), -45), notas_fiscais: 6, cnpj: '99111111003101', razao_social: 'Açougue Exemplo 32 Ltda', carteira_id: 'demo-1', carteira_em: new Date(Date.now() - 60 * 864e5).toISOString(), nota_vendedor: 'VENDEDOR 1' });   // 1.7: cliente ativo com a visita de rotina vencida
       base.push(p);
     }
   }
-  const v = 'demo6-' + base.length;
+  const v = 'demo7-' + base.length;
   if (D.prefs.demoV === v && D.usuario) return;
   D.pontos = {}; base.forEach(p => { D.pontos[p.id] = Object.assign({}, p); });
-  D.visitas = {}; D.rotas = {}; D.fila = []; D.fotos = {}; D.cursor = {};
+  D.visitas = {}; D.rotas = {}; D.fila = []; D.fotos = {}; D.cursor = {}; D.regras = { empresa: Object.assign({}, REGRAS_PADRAO) };
   D.equipe = { 'demo-1': { user_id: 'demo-1', nome: 'Vendedor 1', papel: 'gestor', ativo: true, email: 'gestor@exemplo.com' }, 'demo-2': { user_id: 'demo-2', nome: 'Vendedor 2', papel: 'vendedor', ativo: true, email: 'vendedor2@exemplo.com' },
     'demo-3': { user_id: 'demo-3', nome: 'Vendedor 3', papel: 'vendedor', ativo: false, email: 'vendedor3@exemplo.com', criado_em: new Date().toISOString() } };
   D.usuario = { id: 'demo-1', email: 'demonstracao', nome: 'Vendedor 1', papel: 'gestor' };
@@ -752,7 +794,7 @@ function prepararDemo() {
 // ---------- moldura, navegação e peças comuns
 IC.relogio = '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>';
 const $app = document.getElementById('app'), $jan = document.getElementById('janela'), $av = document.getElementById('aviso');
-const F = { login: {}, pt: { q: '', f: 'pend', bairro: '', n: 40, perto: false }, m: null, v: null, pr: null, mapa: null, fd: null };
+const F = { login: {}, pt: { q: '', f: [], bairro: '', n: 40, perto: false }, m: null, v: null, pr: null, mapa: null, fd: null, filtroAberto: null };   // pt.f: as opções marcadas no filtro (nada marcado = Todos)
 let T = { nome: 'entrar', p: {} };
 const PILHA = [], A = {}, TELAS = {}, AO_DIGITAR = {};
 const getF = c => c.split('.').reduce((o, k) => o == null ? o : o[k], F);
@@ -765,18 +807,18 @@ const SO_GESTOR = { resumo: 1, fechamento: 1, equipe: 1, conferir: 1 };
 function ir(nome, p, raiz) {
   if (SO_GESTOR[nome] && !ehGestor()) { nome = 'hoje'; p = {}; raiz = true; }
   if (raiz) PILHA.length = 0; else PILHA.push(T);
-  T = { nome, p: p || {} }; fecharJanela(); desenhar();
+  T = { nome, p: p || {} }; F.filtroAberto = null; fecharJanela(); desenhar();
   if (nome === 'hoje' || nome === 'rota') { const e = document.querySelector('.parada.atual'); if (e && e.getBoundingClientRect().top > window.innerHeight * 0.55) e.scrollIntoView({ block: 'center' }); }
   if (MODO === 'real' && !raiz) { try { history.pushState({ bc: PILHA.length }, ''); } catch (e) {} }
 }
-function voltar() { T = PILHA.pop() || { nome: 'hoje', p: {} }; fecharJanela(); desenhar(); }
+function voltar() { T = PILHA.pop() || { nome: 'hoje', p: {} }; F.filtroAberto = null; fecharJanela(); desenhar(); }
 A.voltar = () => { if (MODO === 'real' && history.state && history.state.bc) history.back(); else voltar(); };
 window.addEventListener('popstate', () => { if (PILHA.length) voltar(); });
 A.ir = n => ir(n);
 A.aba = a => {
   if (a === 'novoprospect') return abrirProspect();
   if (a !== 'novavisita' && a !== 'pontos') return ir(a, {}, true);
-  const vis = a === 'novavisita'; F.pt = { q: '', f: vis ? 'todos' : 'pend', bairro: '', n: 40, perto: vis && !!gpsRecente() };
+  const vis = a === 'novavisita'; F.pt = { q: '', f: [], bairro: '', n: 40, perto: vis && !!gpsRecente() };   // 1.6.8: abre sempre em Todos
   ir('pontos', vis ? { modo: 'visita' } : {}, true);
   // no + Visita, os pontos mais perto de onde o vendedor está aparecem primeiro
   if (vis && !F.pt.perto) pegarGps().then(g => { if (!g.erro && T.nome === 'pontos' && T.p.modo === 'visita') { F.pt.perto = true; if (!digitando()) desenhar(true); } });
@@ -816,6 +858,7 @@ function desenhar(manter) {
   window.scrollTo(0, y);
   // o filtro escolhido fica à vista na fileira que rola para o lado
   document.querySelectorAll('.rola').forEach(r => { const at = r.querySelector('.chip.at'); if (at) r.scrollLeft = at.offsetLeft - r.offsetLeft - (r.clientWidth - at.clientWidth) / 2; });
+  if (F.filtroAberto) ajustarFiltro();
   if (t.depois) t.depois();   // o mapa precisa do lugar dele já na página
 }
 document.addEventListener('click', ev => {
@@ -837,9 +880,8 @@ function selosPonto(p) {
   if (!naRota(p)) s += selo('Fora da rota: ' + porqueFora(p), 'er');
   if (aConfirmar(p)) s += selo('Nome a confirmar na porta', 'at');
   if (cf === 'Conferir' && !p.ja_cliente) s += selo('Conferir: pode já ser cliente', 'at', 'alerta');
-  else if (p.ja_cliente === 'Sim') s += selo('Já é cliente da Fabril', 'az');
-  else if (cf === 'Inativo') s += selo('Já comprou' + (p.ultima_compra ? ', última em ' + dataBR(p.ultima_compra) : ''), 'az');
-  else if (cf === 'Inativo (rede)') s += selo('A rede já comprou' + (p.ultima_compra ? ', última em ' + dataBR(p.ultima_compra) : ''), 'az');
+  else if (/\(rede\)/.test(cf) && !compraNoApp(p)) s += selo('A rede já comprou' + (p.ultima_compra ? ', última em ' + dataBR(p.ultima_compra) : ''), 'az');
+  else s += seloCliente(p);   // 1.7: cliente ativo ou inativo, pela última compra (nota ou app)
   if (!pos(p)) s += selo('Sem localização no mapa', 'at', 'alerta');
   else if (p.lat_gps == null && /^Só a rua/.test(p.localizacao || '')) s += selo('Localização aproximada');
   if (entregaPendente(p)) s += selo('Entrega pendente', 'at', 'relogio');
@@ -991,9 +1033,10 @@ function cartaoParada(p, n, o) {
   const rt = o.quem && !o.feita && s.c === 'voltar' ? retornoDe(p) : null;   // 1.6.7: na rota, o retorno aparece como retorno, com o horário combinado
   const sSel = rt && rt.devido ? selo('Retorno ' + (rt.atrasado ? 'atrasado, era ' + dataBR(rt.dia).slice(0, 5) : 'de hoje') + (rt.hora ? ' às ' + rt.hora : ''), 'at', 'relogio') : seloSit(s);
   const sDono = rt && !retornoDeQuem(rt, o.quem) ? selo('Combinado por ' + juntar(rt.donos.map(vcOuNome).filter(Boolean)), 'at') : '';
+  const pvR = !o.feita && o.quem ? proximaVisita(p) : null, sRot = pvR && pvR <= hoje() ? selo('Visita de rotina' + (pvR < hoje() ? ', era ' + dataBR(pvR).slice(0, 5) : ''), 'ck', 'relogio') : '';   // 1.7
   const d = o.dist != null ? metros(o.dist) : (po && ant ? metros(dist(ant, po)) + (n === 1 ? ' da saída' : ' da anterior') : '');
   return '<div class="parada' + (o.feita ? ' feita' : '') + (o.atual ? ' atual' : '') + '" data-a="' + (o.acao || 'ponto') + ':' + esc(p.id) + '"><div class="pn">' + (o.feita ? ic('ok', 16) : (n || ic('pontos', 16))) + '</div><div class="pc"><div class="pnome">' + esc(p.nome) + '</div>' +
-    '<div class="pend">' + esc([p.endereco || 'Sem endereço', p.bairro].filter(Boolean).join(' · ')) + '</div>' + (aConfirmar(p) ? linhaGoogle(p.place_id, 'margin-top:2px') : '') + '<div class="selos">' + sSel + sDono + selosPonto(p) + (d ? selo(d) : '') + '</div>' +
+    '<div class="pend">' + esc([p.endereco || 'Sem endereço', p.bairro].filter(Boolean).join(' · ')) + '</div>' + (aConfirmar(p) ? linhaGoogle(p.place_id, 'margin-top:2px') : '') + '<div class="selos">' + sSel + sDono + sRot + selosPonto(p) + (d ? selo(d) : '') + '</div>' +
     (o.atual ? '<div class="pb"><a class="b m" href="' + esc(linkIr(p)) + '" target="_blank" rel="noopener" data-a="ext">' + ic('ir', 18) + 'Ir</a><button class="b p m" data-a="visita:' + esc(p.id) + '">Registrar visita</button></div>' : '') + (o.ctl || '') + '</div></div>';
 }
 // quem está na rota: quem montou troca quem vai junto; quem vai junto vê com quem está; os outros veem de quem é a rota
@@ -1023,6 +1066,12 @@ TELAS.hoje = () => {
   c += encH;
   const ra = g ? retornosAtrasados() : [];   // 1.6.7: retornos que passaram do dia e não estão em rota nenhuma
   if (ra.length) c += '<div class="lista" style="margin-top:14px"><button class="linha" data-a="ir:retornos">' + ic('relogio') + '<div><b style="font-weight:600">Retornos atrasados: ' + ra.length + '</b><div class="s">' + esc(resumoDonos(ra)) + '</div></div>' + ic('frente', 18) + '</button></div>';
+  // 1.7: visita de rotina vencida (o vendedor vê a da carteira dele; o gestor, de todos) e, para o gestor, os clientes sem vendedor
+  if (temClientes()) {
+    const rv = g ? rotinaDe(null) : rotinaDe([D.usuario.id]), sd = g ? pontosAqui().filter(semDono) : [];
+    if (rv.length) c += '<div class="lista" style="margin-top:14px"><button class="linha" data-a="ir:rotina">' + ic('gente') + '<div><b style="font-weight:600">Clientes para visitar: ' + rv.length + '</b><div class="s">' + esc(g ? resumoCarteiras(rv) : 'Da sua carteira, com a visita de rotina vencida') + '</div></div>' + ic('frente', 18) + '</button></div>';
+    if (sd.length) c += '<div class="lista" style="margin-top:14px"><button class="linha" data-a="verSemDono">' + ic('gente') + '<div><b style="font-weight:600">Clientes sem vendedor: ' + sd.length + '</b><div class="s">Toque para pôr na carteira de alguém</div></div>' + ic('frente', 18) + '</button></div>';
+  }
   if (g && vs.length) c += '<div class="lista" style="margin-top:14px"><button class="linha" data-a="fechamento">' + ic('caixa') + '<div><b style="font-weight:600">Fechamento do dia</b><div class="s">O que saiu do carro e quanto foi vendido</div></div>' + ic('frente', 18) + '</button></div>';
   return { titulo: 'Hoje', sub: DIAS[d.getDay()] + ', ' + z2(d.getDate()) + '/' + z2(d.getMonth() + 1) + ' · ' + D.usuario.nome, acoes: '<button class="btn-ic' + (D.sinc.ativo ? ' gira' : '') + '" id="bt-sinc" data-a="sinc" aria-label="Atualizar os dados">' + ic('enviar', 22) + '</button>', corpo: c };
 };
@@ -1077,6 +1126,7 @@ TELAS.ponto = ({ id }) => {
     (fo && fo.zap ? '<button class="b t m" style="padding:0;margin-top:6px" data-a="campanha:' + esc(id) + '">' + ic('etiqueta', 18) + 'Mandar a campanha pelo WhatsApp</button>' : '') + '</div>';
   const semZap = !p.whatsapp && (IDX.v[p.id] || []).some(x => x.cadastro && x.cadastro.sem_whatsapp);   // numa visita, a pessoa não quis passar o número
   if (p.contato_nome || p.whatsapp || p.email || p.ja_cliente || semZap) c += '<div class="cartao"><h2>' + ic('prospect') + 'Cadastro feito na visita</h2>' + kv([['Quem atende', [p.contato_nome, p.contato_funcao].filter(Boolean).join(', ')], ['WhatsApp', p.whatsapp || (semZap ? 'Não quis passar o número' : '')], ['E-mail', p.email], ['CNPJ', p.cnpj], ['Já é cliente?', p.ja_cliente]]) + '</div>';
+  c += cartaoCliente(p);   // 1.7: cliente da Fabril, carteira e visita de rotina
   c += '<div class="cartao"><h2>' + ic('info') + 'O que a lista diz</h2>' + kv([['Código', p.id], ['Telefone', p.telefone], ['Cliente Fabril', p.cliente_fabril], ['Razão social', p.razao_social], ['CNPJ', p.contato_nome || p.whatsapp ? null : p.cnpj], ['Última compra', dataBR(p.ultima_compra)], ['Notas fiscais', p.notas_fiscais], ['Origem', p.origem], ['Fonte', p.fonte], ['Confiança', p.confianca], ['Observação', p.observacao]]) + '</div>';
   if (fs.length) c += '<div class="cartao"><h2>' + ic('camera') + 'Fotos</h2><div class="chips">' + fs.map(f => '<button class="chip" data-a="verFoto:' + f.id + '">' + dh(f.tirada_em) + '</button>').join('') + '</div></div>';
   const uc = ultimoConsumo(id); if (uc) { const ms = lerMedidas(uc.medidas); c += '<div class="cartao"><h2>' + ic('grafico') + 'Consumo levantado</h2><table class="pr"><tr><th>Serra' + (/^16x/.test(uc.modelo || '') ? ' ' + xis(uc.modelo) : '') + '</th><th>Por mês · valor</th></tr>' + ms.map(x => '<tr><td>' + esc(x.m) + ' m</td><td>' + x.qtd + ' · <b>' + brl(x.qtd * precoSerra(x.m)) + '</b></td></tr>').join('') + '</table>' +
@@ -1092,27 +1142,73 @@ const linhaConsumo = k => !k ? '' : k.tem_serra === 'Sim' ? 'Usa por mês: ' + (
 A.verFoto = async id => { janela('<h2>Foto</h2><p class="s">Abrindo…</p>'); let b = null; try { b = await fotoLer(id) || await api.fotoDados(id); } catch (e) {} janela('<h2>Foto</h2>' + (b ? '<img alt="Foto do ponto" src="data:image/jpeg;base64,' + b + '">' : '<p class="s">Não deu para abrir a foto agora. Tente de novo com sinal.</p>') + '<div class="duas"><button class="b" data-a="fechar">Fechar</button></div>'); };
 function gravarRota(r, paradas) { enfileirar('rotas', { id: r.id, dia: r.dia, nome: r.nome, criada_por: r.criada_por, criada_por_nome: r.criada_por_nome, paradas, inicio: r.inicio || null, apagada: false }); }
 // 1.6.7: com mais de uma rota hoje, o botão diz em qual rota o ponto entra (a que foi aberta por último no Hoje)
-const rotuloPorNaRota = r => { const n = rotasDoDia().length; return !r ? (n ? 'Pôr numa rota de hoje' : 'Pôr na rota de hoje') : n > 1 ? 'Pôr na ' + (/^Rota\b/.test(r.nome || '') ? 'r' + r.nome.slice(1) : 'rota ' + (r.nome || '')) : 'Pôr na rota de hoje'; };
+const nomeRotaMin = r => /^Rota\b/.test(r.nome || '') ? 'r' + r.nome.slice(1) : 'rota ' + (r.nome || '');   // "Rota de Jander" vira "rota de Jander"
+const rotuloPorNaRota = r => { const n = rotasDoDia().length; return !r ? (n ? 'Pôr numa rota de hoje' : 'Pôr na rota de hoje') : n > 1 ? 'Pôr na ' + nomeRotaMin(r) : 'Pôr na rota de hoje'; };
 A.porNaRota = id => { const r = rotaAtual(); if (!r) return aviso(rotasDoDia().length ? 'Abra primeiro, no Hoje, a rota em que quer pôr este ponto.' : 'Ainda não há rota hoje. Monte a rota primeiro, em Mais.'); if (r.paradas.includes(id)) return aviso('Este ponto já está na rota de hoje.'); const k = porNaRotaMelhor(r, id); if (T.nome === 'mapa' && F.mapa) Object.assign(F.mapa, { caminho: null, pediu: false, falhou: false, pelasRuas: false }); const ar = avisoRetorno(D.pontos[id], pessoasDe(r)); aviso('Ponto posto na rota de hoje: parada ' + (k + 1) + ', no lugar que menos aumenta o caminho.' + (ar ? ' ' + ar : '')); if (T.nome === 'mapa') atualizarMapa(); else desenhar(true); };
-A.tirarDaRota = id => { const r = rotaAtual(); if (r) gravarRota(r, r.paradas.filter(i => i !== id)); aviso('Ponto tirado da rota de hoje.'); desenhar(true); };
+A.tirarDaRota = id => { const r = rotaAtual(); if (r) gravarRota(r, r.paradas.filter(i => i !== id)); aviso('Ponto tirado da rota de hoje.'); if (T.nome === 'mapa' && F.mapa) { Object.assign(F.mapa, { caminho: null, pediu: false, falhou: false, pelasRuas: false }); atualizarMapa(); } else desenhar(true); };
 
 // ---------- Pontos: a lista inteira (e a escolha do ponto no "+ Visita")
-const FILTROS = [['pend', 'Pendentes'], ['voltar', 'Voltar'], ['comprou', 'Comprou'], ['entregar', 'A entregar'], ['nao', 'Não comprou'], ['todos', 'Todos'], ['fora', 'Fora da rota'], ['redes', 'Grandes redes']];
-function filtrarPontos(modo) {
-  const f = F.pt, q = norm(f.q), g = f.perto ? gpsRecente() : null;
-  const ps = pontosAqui().filter(p => {
-    const s = situacao(p).c;
-    if (f.f === 'entregar') { if (!entregaPendente(p)) return false; } else if (f.f === 'fora') { if (naRota(p)) return false; } else if (f.f === 'redes') { if (!ehRede(p)) return false; } else if (f.f !== 'todos' || modo) { if (!naRota(p) && !q) return false; if (f.f === 'pend' && s !== 'pendente') return false; if (f.f === 'voltar' && s !== 'voltar') return false; if (f.f === 'comprou' && s !== 'comprou') return false; if (f.f === 'nao' && s !== 'nao_comprou' && s !== 'descartado') return false; }
-    if (f.bairro && p.bairro !== f.bairro) return false;
-    return !q || norm([p.nome, p.endereco, p.bairro, p.id, p.razao_social, p.rede].join(' ')).includes(q);
-  });
+// 1.6.8: o filtro abre numa lista com caixinhas e aceita mais de uma opção: aparece o que se encaixa em qualquer uma. Nada marcado = Todos.
+// Comprou, Voltar, Não comprou e Visitados valem também para os pontos fora da rota; Pendentes, só para os da rota (a busca pelo nome acha os outros).
+const FILTROS = [['pend', 'Pendentes', 'Situação'], ['visit', 'Visitados', 'Situação'], ['comprou', 'Comprou', 'Situação'], ['entregar', 'A entregar', 'Situação'], ['voltar', 'Voltar', 'Situação'], ['nao', 'Não comprou', 'Situação'],
+  ['cativo', 'Clientes ativos', 'Clientes'], ['cinativo', 'Clientes inativos', 'Clientes'], ['carteira', 'Minha carteira', 'Clientes'], ['semdono', 'Sem vendedor', 'Clientes'],   // 1.7
+  ['hoje', 'Visitados hoje', 'Hoje'], ['rotas', 'Nas rotas de hoje', 'Hoje'],
+  ['fora', 'Fora da rota', 'Outros'], ['redes', 'Grandes redes', 'Outros'], ['app', 'Cadastrados no app', 'Outros'], ['naoenc', 'Não encontrado', 'Outros']];
+const SO_PONTOS = ['fora', 'redes'];   // no + Visita (escolher o ponto que está visitando) essas duas não aparecem
+// 1.7: Minha carteira e Sem vendedor só depois do comando 12; Sem vendedor só para o gestor
+const filtroVale = (k, modo) => !(modo && SO_PONTOS.includes(k)) && !((k === 'carteira' || k === 'semdono') && !temClientes()) && !(k === 'semdono' && !ehGestor());
+const filtrosDe = (f, modo) => (Array.isArray(f.f) ? f.f : f.f && f.f !== 'todos' ? [f.f] : []).filter(k => FILTROS.some(x => x[0] === k) && filtroVale(k, modo));
+const nomeFiltro = k => (FILTROS.find(x => x[0] === k) || [])[1] || '';
+const rotuloFiltro = (f, modo) => { const ks = filtrosDe(f, modo); return !ks.length ? 'Todos' : ks.length < 3 ? ks.map(nomeFiltro).join(', ') : ks.length + ' marcados'; };
+const casaBusca = (p, q) => !q || norm([p.nome, p.endereco, p.bairro, p.id, p.razao_social, p.rede].join(' ')).includes(q);
+const ctxFiltro = () => { let r = null; return { rotas: () => r || (r = new Set(rotasDoDia().flatMap(x => x.paradas || []))) }; };
+function casaFiltro(p, ks, modo, q, cx) {
+  const s = situacao(p).c;
+  if (s === 'descartado' && !ks.includes('naoenc') && !q) return false;   // o Não encontrado só aparece no filtro dele, ou procurando pelo nome
+  if (!ks.length) return !modo || naRota(p) || !!q;   // Todos; no + Visita, só os da rota (a busca acha os outros)
+  return ks.some(k => k === 'pend' ? (naRota(p) || !!q) && s === 'pendente' : k === 'visit' ? s === 'comprou' || s === 'voltar' || s === 'nao_comprou' : k === 'comprou' ? s === 'comprou' : k === 'entregar' ? entregaPendente(p) :
+    k === 'voltar' ? s === 'voltar' : k === 'nao' ? s === 'nao_comprou' : k === 'hoje' ? feitaNoDia(p.id, hoje()) : k === 'rotas' ? cx.rotas().has(p.id) : k === 'fora' ? !naRota(p) : k === 'redes' ? ehRede(p) :
+    k === 'app' ? !!p.criado_no_app : k === 'naoenc' ? s === 'descartado' : k === 'cativo' ? statusCliente(p) === 'ativo' : k === 'cinativo' ? statusCliente(p) === 'inativo' : k === 'carteira' ? p.carteira_id === D.usuario.id : k === 'semdono' ? semDono(p) : false);
+}
+function filtrarPontos(modo, fx) {   // fx: o filtro do mapa; sem ele, o da tela Pontos
+  const f = fx || F.pt, q = norm(f.q), g = f.perto ? gpsRecente() : null, ks = filtrosDe(f, modo), cx = ctxFiltro();
+  const ps = pontosAqui().filter(p => (!f.bairro || p.bairro === f.bairro) && casaBusca(p, q) && casaFiltro(p, ks, modo, q, cx));
   if (g) { ps.forEach(p => { const o = pos(p); p._d = o ? dist(g, o) : 1e12; }); ps.sort((a, b) => a._d - b._d); }
   else ps.sort((a, b) => (ZONAS.indexOf(a.zona) - ZONAS.indexOf(b.zona)) || (a.bairro || '').localeCompare(b.bairro || '', 'pt-BR') || a.nome.localeCompare(b.nome, 'pt-BR'));
   return ps;
 }
+// quantos pontos cada opção mostra, com a busca e o bairro de agora (base: na montagem da rota, só os que podem entrar)
+function contarFiltros(modo, f, base) {
+  const q = norm(f.q), cx = ctxFiltro(), ps = (base || pontosAqui()).filter(p => (!f.bairro || p.bairro === f.bairro) && casaBusca(p, q)), n = { todos: ps.filter(p => casaFiltro(p, [], modo, q, cx)).length };
+  FILTROS.forEach(([k]) => { n[k] = ps.filter(p => casaFiltro(p, [k], modo, q, cx)).length; });
+  return n;
+}
+IC.filtro = '<path d="M3 5h18l-7 8.5V19l-4 2v-7.5Z"/>'; IC.caixinha = '<rect x="3.5" y="3.5" width="17" height="17" rx="3"/>'; IC.marcado = '<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="m8 12.5 3 3 5.5-6.5"/>';
+// o botão do filtro e, aberto, a lista com caixinhas por cima da tela. alvo: 'pt' (Pontos e + Visita) ou 'mapa'
+function botaoFiltro(alvo, modo, base) {
+  const f = alvo === 'mapa' ? F.mapa.f : F.pt, ks = filtrosDe(f, modo), aberto = F.filtroAberto === alvo, ac = alvo === 'mapa' ? 'mapaFiltro' : 'filtro';
+  let h = '<div class="filtro"><button type="button" class="b m filtro-bt' + (ks.length ? ' at' : '') + '" aria-expanded="' + aberto + '" data-a="filtroAbrir:' + alvo + '">' + ic('filtro', 18) + '<span class="t">Filtro: ' + esc(rotuloFiltro(f, modo)) + '</span>' + ic(aberto ? 'cima' : 'baixo', 18) + '</button>';
+  if (!aberto) return h + '</div>';
+  const n = contarFiltros(modo, f, base), op = (k, t, on) => '<button type="button" class="filtro-op' + (on ? ' at' : '') + '" role="menuitemcheckbox" aria-checked="' + on + '" data-a="' + ac + ':' + k + '">' + ic(on ? 'marcado' : 'caixinha', 22) + '<span class="t">' + t + '</span><span class="n">' + n[k] + '</span></button>';
+  let gr = ''; h += '<div class="filtro-fundo" data-a="filtroFechar"></div><div class="filtro-lista" role="menu">' + op('todos', 'Todos', !ks.length);
+  FILTROS.filter(x => filtroVale(x[0], modo) && (!base || n[x[0]] > 0 || ks.includes(x[0]))).forEach(([k, t, g]) => { if (g !== gr) { gr = g; h += '<div class="filtro-gr">' + g + '</div>'; } h += op(k, t, ks.includes(k)); });
+  return h + '<div class="filtro-pe"><button type="button" class="b m" data-a="' + ac + ':todos">Limpar</button><button type="button" class="b p m" data-a="filtroFechar">Pronto</button></div></div></div>';
+}
+// tocar numa opção marca ou desmarca; Todos (e Limpar) desmarca tudo
+const trocarFiltro = (f, k, modo) => { if (k === 'todos') return []; const ks = filtrosDe(f, modo), nv = ks.includes(k) ? ks.filter(x => x !== k) : ks.concat(k); return FILTROS.map(x => x[0]).filter(x => nv.includes(x)); };
+// a lista do filtro cabe na tela: o botão sobe para perto do alto, se estiver embaixo, e a lista vai até o fim da tela (rola por dentro)
+function ajustarFiltro() {
+  const l = document.querySelector('.filtro-lista'), bt = document.querySelector('.filtro-bt'); if (!l || !bt) return;
+  const topo = (document.querySelector('.topo') || {}).offsetHeight || 0; let r = bt.getBoundingClientRect();
+  if (r.top > window.innerHeight * 0.45 || r.top < topo) { window.scrollBy(0, r.top - topo - 8); r = bt.getBoundingClientRect(); }
+  l.style.maxHeight = Math.max(200, Math.min(540, window.innerHeight - r.bottom - 18)) + 'px';
+}
+A.verSemDono = () => { F.pt = { q: '', f: ['semdono'], bairro: '', n: 40, perto: false }; ir('pontos', {}); };
+A.filtroAbrir = alvo => { F.filtroAberto = F.filtroAberto === alvo ? null : alvo; desenhar(true); };
+A.filtroFechar = () => { F.filtroAberto = null; desenhar(true); };
 function listaPontos(modo) {
   const f = F.pt, g = f.perto ? gpsRecente() : null, ps = filtrarPontos(modo), ver = ps.slice(0, f.n);
-  return (ver.length ? ver.map(p => cartaoParada(p, 0, { acao: modo ? 'visita' : 'ponto', dist: g && p._d < 1e11 ? p._d : null })).join('') : '<div class="vazio"><b>Nada encontrado</b>Mude o filtro ou a busca.' + (modo ? '<br><button class="b" data-a="aba:novoprospect">Cadastrar um prospect novo</button>' : '') + '</div>') +
+  return (modo ? '' : botaoLote(ps)) + (ver.length ? ver.map(p => cartaoParada(p, 0, { acao: modo ? 'visita' : 'ponto', dist: g && p._d < 1e11 ? p._d : null })).join('') : '<div class="vazio"><b>Nada encontrado</b>Mude o filtro ou a busca.' + (modo ? '<br><button class="b" data-a="aba:novoprospect">Cadastrar um prospect novo</button>' : '') + '</div>') +
     (ps.length > ver.length ? '<button class="b g" data-a="maisPontos">Mostrar mais</button>' : '') + '<div class="s" style="text-align:center;margin-top:10px">' + plural(ps.length, 'ponto', 'pontos') + (g ? ', do mais perto para o mais longe' : '') + '</div>';
 }
 TELAS.pontos = p => {
@@ -1122,14 +1218,14 @@ TELAS.pontos = p => {
   const c = faixaPraca() + '<div class="seg"><button type="button" class="at" aria-pressed="true">' + ic('menu', 18) + 'Lista</button><button type="button" aria-pressed="false" data-a="mapa:pontos">' + ic('pontos', 18) + 'Mapa</button></div>' +
     (google && !modo ? '<div style="margin:0 0 10px">' + google + '</div>' : '') +
     '<label class="c" style="margin-bottom:10px"><span>' + (modo ? 'Qual ponto você está visitando?' : 'Procurar') + '</span><input type="search" enterkeyhint="search" placeholder="Nome, rua, bairro ou código" data-f="pt.q" data-i="busca" value="' + esc(f.q) + '"></label>' +
-    '<div class="rola"><button class="chip' + (f.perto && gpsRecente() ? ' at' : '') + '" data-a="perto">' + ic('alvo', 16) + ' Perto de mim</button>' + FILTROS.filter(x => !modo || (x[0] !== 'fora' && x[0] !== 'redes')).map(x => '<button class="chip' + (f.f === x[0] ? ' at' : '') + '" data-a="filtro:' + x[0] + '">' + x[1] + '</button>').join('') + '</div>' +
+    '<div class="linha-filtro">' + botaoFiltro('pt', modo) + '<button class="chip' + (f.perto && gpsRecente() ? ' at' : '') + '" data-a="perto">' + ic('alvo', 16) + ' Perto de mim</button></div>' +
     '<label class="c"><select data-f="pt.bairro" data-r="1" aria-label="Bairro"><option value="">Todos os bairros</option>' + bairros().map(b => '<option' + (f.bairro === b.n ? ' selected' : '') + '>' + esc(b.n) + '</option>').join('') + '</select></label><div id="lista-pontos">' + listaPontos(modo) + '</div>' +
     (google && modo ? '<div style="margin-top:12px">' + google + '</div><div class="s" style="text-align:center;margin-top:6px">Acha açougues, mercados ou o que você escrever, em volta de você ou na área que escolher no mapa.</div>' : '');
   return { titulo: modo ? 'Nova visita' : 'Pontos', sub: modo ? 'Escolha o ponto; se não estiver na lista, use + Prospect' : plural(pontosAqui().filter(naRota).length, 'ponto', 'pontos') + ' na rota da campanha' + (variasPracas() ? ' · ' + pracaDe(ufAtual()).cidade : ''), corpo: c };
 };
 let tBusca = null;
 AO_DIGITAR.busca = () => { clearTimeout(tBusca); tBusca = setTimeout(() => { F.pt.n = 40; pintar('lista-pontos', listaPontos(T.p.modo === 'visita')); }, 200); };
-A.filtro = x => { F.pt.f = x; F.pt.n = 40; desenhar(); };
+A.filtro = k => { F.pt.f = trocarFiltro(F.pt, k, T.p && T.p.modo === 'visita'); F.pt.n = 40; desenhar(true); };
 A.maisPontos = () => { F.pt.n += 40; desenhar(true); };
 A.perto = async () => { if (F.pt.perto && gpsRecente()) { F.pt.perto = false; return desenhar(); } aviso('Pegando a localização…'); const g = await pegarGps(); if (g.erro) return aviso(g.erro); F.pt.perto = true; F.pt.n = 40; if (T.nome === 'pontos') desenhar(); };
 
@@ -1144,6 +1240,7 @@ TELAS.mais = () => {
     (variasPracas() ? li('praca', 'pontos', 'Cidade de trabalho', esc(pracaDe(ufAtual()).rot) + ' · toque para trocar') : '') + '</div>';
   if (g) c += '<div class="tit">Só o gestor vê</div><div class="lista">' + li('ir:equipe', 'gente', 'Equipe', esp ? plural(esp, 'pessoa esperando liberação', 'pessoas esperando liberação') : 'Liberar ou excluir quem usa o app', esp ? '<span class="fim">' + esp + '</span>' : null) +
     li('fechamento', 'caixa', 'Fechamento do dia', 'O que saiu do carro e quanto foi vendido') + li('ir:resumo', 'grafico', 'Resumo da campanha', 'Visitas, vendas e o que falta') +
+    li('notas', 'baixar', 'Importar notas fiscais', 'Atualiza os clientes ativos e inativos e traz os novos') + li('regras', 'lapis', 'Regras', 'Dias para inativo, visita de rotina e importação') +
     ((nc => li('conferir', 'alvo', 'Conferir a lista no Google', nc || usoTexto()))(conferirNovos().length ? plural(conferirNovos().length, 'ponto novo da base de CNPJ', 'pontos novos da base de CNPJ') + ' para conferir' : conferirRenovar().length ? plural(conferirRenovar().length, 'localização do Google para renovar', 'localizações do Google para renovar') : '')) +
     li('baixar:visitas', 'baixar', 'Baixar as visitas em planilha', 'Arquivo CSV, abre no Excel') + li('baixar:pontos', 'baixar', 'Baixar os pontos em planilha', 'Com o que foi cadastrado nas visitas') + '</div>';
   if (MODO === 'demo') c += '<div class="lista">' + li('simular', 'semsinal', D.prefs.semSinal ? 'Voltar o sinal' : 'Simular sem sinal', 'Só na demonstração: mostra como fica sem internet', ' ') + li('zerarDemo', 'x', 'Recomeçar a demonstração', 'Apaga as visitas e as rotas de teste', ' ') + li('demoPapel', 'gente', g ? 'Ver como vendedor' : 'Voltar a ver como gestor', 'Só na demonstração: mostra o que cada um enxerga', ' ') + '</div>';
@@ -1358,14 +1455,36 @@ const comPos = ps => ps.filter(p => pos(p)).map(p => Object.assign({ p }, pos(p)
 // 1.6.7: as pessoas da rota que está sendo montada (gestor: quem ele marcou; vendedor: ele e quem vai junto; edição: as da rota)
 const quemDaMontagem = m => m.editar ? pessoasDe(rotaAtual() || {}) : m.para ? paraQuem(m) : [D.usuario.id].concat(m.junto || []);
 // os retornos do dia entre os pontos que podem entrar, do mais atrasado para o mais novo
-const retornosDoDia = cs => cs.map(p => ({ p, rt: retornoDe(p) })).filter(x => x.rt && x.rt.devido).sort((a, b) => a.rt.dia.localeCompare(b.rt.dia)).map(x => x.p);
+// 1.6.8: entre os do mesmo dia, primeiro os mais perto do começo da rota (base)
+const retornosDoDia = (cs, base) => cs.map(p => ({ p, rt: retornoDe(p), d: base && pos(p) ? dist(base, pos(p)) : 1e12 })).filter(x => x.rt && x.rt.devido).sort((a, b) => a.rt.dia.localeCompare(b.rt.dia) || a.d - b.d).map(x => x.p);
+// 1.6.8: com retorno na rota, as vagas que sobram vão para os pontos que menos aumentam o caminho que passa pelos retornos
+// (pontos no caminho até eles), e não só para os mais perto da saída. Rota sem retorno continua pelos mais perto do começo.
+function pontosNoCaminho(fixos, sel, base, fim, vagas) {
+  if (vagas <= 0 || !sel.length) return [];
+  const f = temFim(fim) ? fim : null, cam = [base].concat(ordenar(fixos, base, f)).concat(f ? [f] : []);
+  const perto = c => Math.min.apply(null, cam.map(a => dist(a, c)));
+  const resto = comPos(sel).map(c => Object.assign(c, { _m: perto(c) })).sort((a, b) => a._m - b._m).slice(0, 300), sai = [];
+  while (sai.length < vagas && resto.length) {
+    let bi = -1, bk = -1, bc = Infinity;
+    for (let i = 0; i < resto.length; i++) for (let k = 0; k < cam.length - (f ? 1 : 0); k++) {
+      const a = cam[k], b = cam[k + 1], c = dist(a, resto[i]) + (b ? dist(resto[i], b) - dist(a, b) : 0);
+      if (c < bc) { bc = c; bi = i; bk = k; }
+    }
+    const x = resto.splice(bi, 1)[0]; cam.splice(bk + 1, 0, x); sai.push(x);
+  }
+  return sai;
+}
 // escolher no mapa: os retornos de quem está na rota já vêm marcados (dá para desmarcar)
 function marcarRetornosNoMapa(m) {
   if (!m || m.mapaRet) return; m.mapaRet = true;
   const r = alvoMontar(m).r, a = m.mapaIds = m.mapaIds || [];
   retornosDoDia(candidatos(m.destino === 'atual' && r ? r.id : null, quemDaMontagem(m))).filter(p => pos(p)).forEach(p => { if (!a.includes(p.id)) a.push(p.id); });
 }
-AO_MUDAR['m.modo'] = () => { if (F.m && F.m.modo === 'mapa') marcarRetornosNoMapa(F.m); };
+AO_MUDAR['m.modo'] = () => { if (F.m && F.m.modo === 'mapa') { marcarRetornosNoMapa(F.m); marcarRotinaNoMapa(F.m); } };
+// 1.7: com "Incluir clientes para visitar" ligado, os clientes da carteira de quem está na rota com a visita de rotina vencida também entram (como os retornos)
+const rotinaDaMontagem = m => m && m.rotina === 'sim' ? rotinaDe(quemDaMontagem(m), menosDaMontagem(m)) : [];
+function marcarRotinaNoMapa(m) { if (!m || m.rotina !== 'sim' || m.modo !== 'mapa') return; const a = m.mapaIds = m.mapaIds || []; rotinaDaMontagem(m).filter(p => pos(p)).forEach(p => { if (!a.includes(p.id)) a.push(p.id); }); }
+AO_MUDAR['m.rotina'] = () => { const m = F.m; if (!m) return; if (m.rotina === 'sim') marcarRotinaNoMapa(m); else { const fora = new Set(rotinaDe(quemDaMontagem(m), menosDaMontagem(m)).map(p => p.id)); m.mapaIds = (m.mapaIds || []).filter(i => !fora.has(i)); } };
 // pôr à mão o retorno de outra pessoa pode: o app só avisa de quem é
 const avisoRetorno = (p, quem) => { const rt = p && retornoDe(p); return rt && !retornoDeQuem(rt, quem) ? 'Retorno combinado por ' + juntar(rt.donos.map(vcOuNome).filter(Boolean)) + ' para ' + dataBR(rt.dia).slice(0, 5) + (rt.hora ? ' às ' + rt.hora : '') + '.' : ''; };
 // os pontos tocados no mapa que ainda podem entrar na rota
@@ -1396,7 +1515,7 @@ AO_DIGITAR.fimMudou = () => lugarMudou('fim');
 TELAS.montar = () => {
   const m = F.m; if (!m) return TELAS.hoje();
   if (m.previa) return telaPrevia(m);
-  const { r, rs: varias } = alvoMontar(m), g = !!m.para, eu = D.usuario.id, ids = g ? paraQuem(m) : [], menos = m.destino === 'atual' && r ? r.id : null, cs = candidatos(menos, quemDaMontagem(m)), csMapa = candidatos(menos), rets = retornosDoDia(cs), porB = {};
+  const { r, rs: varias } = alvoMontar(m), g = !!m.para, eu = D.usuario.id, ids = g ? paraQuem(m) : [], menos = m.destino === 'atual' && r ? r.id : null, cs = candidatos(menos, quemDaMontagem(m)), rots = temClientes() ? rotinaDe(quemDaMontagem(m), menos) : [], csMapa = candidatos(menos).concat(m.rotina === 'sim' ? rots : []), rets = retornosDoDia(cs), porB = {};
   if (m.modo === 'retornos' && !rets.length) m.modo = 'perto';
   cs.forEach(p => { const b = porB[p.bairro || 'Sem bairro'] = porB[p.bairro || 'Sem bairro'] || { z: p.zona, n: 0 }; b.n++; });
   let c = '';
@@ -1436,7 +1555,8 @@ TELAS.montar = () => {
   if (m.modo === 'mapa') escolha = '<div class="s" style="margin:8px 0">Abra o mapa e toque nos pontos que entram na rota. Depois o app põe as paradas em ordem, a partir do começo escolhido.</div><button class="b g" data-a="mapa:escolher">' + ic('pontos', 18) + (noMapa ? 'Abrir o mapa · ' + plural(noMapa, 'ponto escolhido', 'pontos escolhidos') : 'Abrir o mapa') + '</button>';
   const notaRet = !rets.length ? '' : '<div class="gps" style="margin-top:10px">' + ic('relogio', 20) + '<span><b>' + plural(rets.length, 'retorno', 'retornos') + ' para hoje</b>' + (g && ids.length > 1 ? ' de quem está nesta rota' : '') + '. ' +
     (m.modo === 'mapa' ? 'Eles já vêm marcados no mapa.' : m.modo === 'retornos' ? 'A rota fica só com eles, até o número de paradas abaixo, na ordem do caminho.' : 'Eles entram na rota sozinhos, na ordem do caminho.') + '</span></div>';
-  c += '<div class="cartao"><h2>Quais paradas</h2>' + chips('m.modo', [['perto', 'As mais perto do começo'], ['bairros', 'Escolher bairros'], ['mapa', 'Escolher no mapa']].concat(rets.length ? [['retornos', 'Só os retornos']] : []), m.modo) + escolha + notaRet + '</div>';
+  const notaRot = !rots.length ? '' : '<div class="rot" style="margin-top:12px">Visita de rotina</div>' + chips('m.rotina', [['sim', 'Incluir clientes para visitar (' + rots.length + ')']], m.rotina) + '<div class="s">' + (m.rotina === 'sim' ? 'Clientes da carteira com a visita de rotina vencida' + (m.modo === 'mapa' ? ': já vêm marcados no mapa.' : ': entram na rota sozinhos, depois dos retornos, na ordem do caminho.') : 'Clientes ativos da carteira' + (g && ids.length > 1 ? ' de quem está nesta rota' : '') + ' com a visita de rotina vencida.') + '</div>';
+  c += '<div class="cartao"><h2>Quais paradas</h2>' + chips('m.modo', [['perto', 'As mais perto do começo'], ['bairros', 'Escolher bairros'], ['mapa', 'Escolher no mapa']].concat(rets.length ? [['retornos', 'Só os retornos']] : []), m.modo) + escolha + notaRet + notaRot + '</div>';
   if (m.modo !== 'mapa') c += '<div class="cartao"><h2>Quantas paradas</h2><div class="item" style="border:0;padding:0"><div class="s">Você pode tirar ou trocar paradas antes de salvar.</div>' + pm('m.n', m.n, 5, 60, 5) + '</div></div>';
   const nSel = m.modo === 'mapa' ? noMapa : m.modo === 'bairros' ? cs.filter(p => m.bairros.includes(p.bairro || 'Sem bairro')).length : cs.length, semIni = !!faltaLugar(m), falta = faltaEscolha(m, r, ids);
   return { titulo: 'Montar a rota', sub: 'Escolha onde começa e onde termina', corpo: c,
@@ -1446,20 +1566,22 @@ const faltaEscolha = (m, r, ids) => m.para && !ids.length ? 'Escolha para quem �
 A.zona = z => { F.m.zona = z; desenhar(true); };
 A.verRota = async () => {
   const m = F.m; if (!m) return; const r = alvoMontar(m).r, falta = faltaEscolha(m, r, m.para ? paraQuem(m) : []); if (falta) return aviso(falta);
-  const cs = candidatos(m.destino === 'atual' && r ? r.id : null, m.modo === 'mapa' ? null : quemDaMontagem(m)); let base = FABRIL, fim = FABRIL, esc_, sem = [], retDentro = 0, retFora = 0;
+  const cs0 = candidatos(m.destino === 'atual' && r ? r.id : null, m.modo === 'mapa' ? null : quemDaMontagem(m)), rots = rotinaDaMontagem(m), cs = cs0.concat(rots.filter(p => !cs0.includes(p))); let base = FABRIL, fim = FABRIL, esc_, sem = [], retDentro = 0, retFora = 0;
   if (m.fim === 'ultima') fim = FIM_ULTIMA; else if (m.fim === 'endereco') { if (!m.fimEnd) return aviso('Procure primeiro o endereço do fim.'); fim = m.fimEnd; }
   if (m.ini === 'endereco' && !m.iniEnd) return aviso('Procure primeiro o endereço de início.');
   if (m.ini === 'aqui') { aviso('Pegando a localização…'); const g = await pegarGps(); if (g.erro) return aviso(g.erro); if (F.m !== m) return; base = { lat: g.lat, lng: g.lng, tipo: 'aqui', rot: 'onde ' + D.usuario.nome + ' estava às ' + hm(new Date().toISOString()) }; }
   else if (m.ini === 'endereco') { if (!m.iniEnd) return aviso('Procure primeiro o endereço de início.'); base = m.iniEnd; }
   if (m.modo === 'mapa') esc_ = comPos(doMapa(m, cs));
   else {
-    // 1.6.7: os retornos do dia de quem está na rota têm vaga garantida (os mais atrasados primeiro, até o número de paradas); o resto completa pelos mais perto.
+    // 1.6.7: os retornos do dia de quem está na rota têm vaga garantida (os mais atrasados primeiro, até o número de paradas).
+    // 1.6.8: entre os do mesmo dia, os mais perto do começo; o resto completa com os pontos no caminho dos retornos (o menor desvio). Sem retorno, pelos mais perto, como antes.
     // A ordem das paradas continua a do caminho.
-    const rets = retornosDoDia(cs), fixos = rets.slice(0, m.n), fixSem = fixos.filter(p => !pos(p)); retDentro = fixos.length; retFora = rets.length - fixos.length;
-    const sel = m.modo === 'retornos' ? [] : (m.modo === 'bairros' ? cs.filter(p => m.bairros.includes(p.bairro || 'Sem bairro')) : cs).filter(p => !rets.includes(p));
+    // 1.7: depois dos retornos, os clientes da visita de rotina (quando ligado), também com vaga garantida
+    const rets = retornosDoDia(cs0, base), fixos = rets.concat(rots).slice(0, m.n), fixSem = fixos.filter(p => !pos(p)); retDentro = fixos.filter(p => rets.includes(p)).length; retFora = rets.length - retDentro;
+    const sel = m.modo === 'retornos' ? [] : (m.modo === 'bairros' ? cs0.filter(p => m.bairros.includes(p.bairro || 'Sem bairro')) : cs0).filter(p => !rets.includes(p));
     const semB = m.modo === 'bairros' ? sel.filter(p => !pos(p)).slice(0, 5) : []; sem = fixSem.concat(semB);
     const vagas = fixos.length ? m.n - fixos.length - semB.length : Math.max(1, m.n - semB.length);
-    esc_ = comPos(fixos).concat(vagas > 0 && sel.length ? cadeia(comPos(sel), base, vagas) : []);
+    esc_ = comPos(fixos).concat(vagas > 0 && sel.length ? (fixos.length ? pontosNoCaminho(comPos(fixos), sel, base, fim, vagas) : cadeia(comPos(sel), base, vagas)) : []);
   }
   if (!esc_.length && !sem.length) return aviso(m.modo === 'mapa' ? 'Escolha pelo menos um ponto no mapa.' : m.modo === 'retornos' ? 'Não há retorno para hoje de quem está nesta rota.' : 'Não há ponto pendente para essa escolha.');
   m.previa = { ids: ordenar(esc_, base, temFim(fim) ? fim : null).map(o => o.p.id).concat(sem.map(p => p.id)), ini: base, fim, retDentro, retFora }; D.prefs.n = m.n; salvar('prefs');
@@ -1476,7 +1598,7 @@ function ordenarPelasRuas(m) {
     if (F.m !== m || m.previa !== pv || pv.ruas !== 'indo') return;   // a pessoa mexeu na ordem ou saiu da tela: o resultado não vale mais
     if (x) Object.assign(pv, { ids: x.pts.map(o => o.p.id).concat(sem), ruas: 'ok', km: x.km, min: x.min, caminho: x.caminho }); else pv.ruas = 'falhou';
     if (T.nome === 'montar' && !$jan.firstChild) desenhar(true);
-    else if (T.nome === 'mapa' && F.mapa && F.mapa.tipo === 'previa') { Object.assign(F.mapa, { caminho: null, pediu: false, falhou: false, pelasRuas: false }); atualizarMapa(); }
+    else if (T.nome === 'mapa' && F.mapa && F.mapa.previa) { Object.assign(F.mapa, { caminho: null, pediu: false, falhou: false, pelasRuas: false }); atualizarMapa(); }
   });
   return true;
 }
@@ -1754,30 +1876,51 @@ function lugarDaLista(q) {
 }
 
 // ---------- o que aparece no mapa, conforme a tela de onde ele foi aberto
-const corDe = p => { const s = situacao(p).c; return !naRota(p) ? (ehRede(p) ? 'pr' : 'pf') : s === 'comprou' ? 'pv' : s === 'voltar' ? 'pa' : s === 'pendente' ? 'pz' : 'pc'; };
-const idsDaRota = mp => { const r = rotaAtual(), pv = mp.tipo === 'previa' && F.m && F.m.previa; return { ids: pv ? pv.ids : (r ? r.paradas : []), ini: pv ? pv.ini : iniDaRota(r), fim: pv ? pv.fim || FABRIL : fimDaRota(r), pv }; };
+// 1.6.8: o ponto fora da rota que já foi visitado ganha a cor do resultado (ele aparece em Comprou, Voltar e Não comprou); sem visita, fica com a cor de fora da rota
+// 1.7: o resultado da visita da campanha vale mais que a cor de cliente; sem visita, o cliente da Fabril aparece em rosa (ativo) ou com o contorno rosa (inativo)
+const corDe = p => { const s = situacao(p).c; if (s !== 'pendente') return s === 'comprou' ? 'pv' : s === 'voltar' ? 'pa' : s === 'descartado' ? 'px' : 'pc'; const st = statusCliente(p); return st === 'ativo' ? 'pk' : st === 'inativo' ? 'pki' : !naRota(p) ? (ehRede(p) ? 'pr' : 'pf') : 'pz'; };
+// 1.6.8: um mapa só. A rota que aparece (e que o mapa muda): a da conferência (prévia) ou a rota aberta de hoje.
+const rotaDoMapa = mp => {
+  if (mp && mp.previa && F.m && F.m.previa) { const pv = F.m.previa; return { r: null, ids: pv.ids, ini: pv.ini, fim: pv.fim || FABRIL, pv }; }
+  const r = rotaAtual(); return { r, ids: r ? r.paradas : [], ini: iniDaRota(r), fim: fimDaRota(r), pv: null };
+};
+const idsDaRota = rotaDoMapa;
 const chaveCaminho = (ids, ini, fim) => ids.join(',') + '|' + ini.lat + '|' + (temFim(fim) ? fim.lat + ',' + fim.lng : 'u');
-// a Fabril só entra no mapa da praça dela; no mapa de uma rota, só quando a rota começa ou termina nela
-const fabrilNoMapa = mp => mp.tipo === 'rota' || mp.tipo === 'previa' ? (x => x.ini.id === 'FABRIL' || x.fim.id === 'FABRIL')(idsDaRota(mp)) : naBase();
+const comRotaNoMapa = mp => !!mp.rota && !mp.montar && rotaDoMapa(mp).ids.length > 0;
+// a Fabril aparece no mapa da praça dela; com a rota na tela, só quando a rota começa ou termina nela
+const fabrilNoMapa = mp => comRotaNoMapa(mp) ? (x => x.ini.id === 'FABRIL' || x.fim.id === 'FABRIL')(rotaDoMapa(mp)) : naBase();
+// a rota que está sendo montada (Escolher no mapa) ou conferida não conta como ocupada: os pontos dela podem entrar de novo
+const menosDaMontagem = m => { if (!m) return null; const r = alvoMontar(m).r; return r && (m.editar || m.destino === 'atual') ? r.id : null; };
+// o que o botão do cartão muda: na montagem, os pontos escolhidos; na conferência, a rota ainda não salva; nos outros, a rota aberta de hoje
+function alvoDoMapa(mp) {
+  if (mp.montar && F.m) return { tem: id => (F.m.mapaIds || []).includes(id), por: 'pino', tirar: 'pino', rotulo: 'Pôr na rota', quem: quemDaMontagem(F.m), ok: true };
+  if (mp.previa && F.m && F.m.previa) return { tem: id => F.m.previa.ids.includes(id), por: 'pvPor', tirar: 'pvTirar', rotulo: 'Pôr na rota', quem: quemDaMontagem(F.m), ok: true };
+  const r = rotaAtual(); return { tem: id => !!r && r.paradas.includes(id), por: 'porNaRota', tirar: 'tirarDaRota', rotulo: rotuloPorNaRota(r), quem: r ? pessoasDe(r) : [], ok: !!r, r };
+}
+// 1.7: na montagem e na conferência, os pontos que podem entrar na rota (com os clientes da visita de rotina, quando ligado) e o filtro sobre eles
+const candidatosDoMapa = mp => { const m = F.m || {}, cs = candidatos(menosDaMontagem(m)); return mp.montar ? cs.concat(rotinaDaMontagem(m).filter(p => !cs.includes(p))) : cs; };
+function filtroDaMontagem(mp) { const ks = filtrosDe(mp.f, mp.modoVisita); if (!ks.length) return () => true; const cx = ctxFiltro(); return p => casaFiltro(p, ks, false, '', cx); }
 function itensDoMapa() {
-  const mp = F.mapa, sai = [], h = hoje(); let linha = null, semPos = 0;
-  const por = (p, txt, cls) => { const o = pos(p); if (!o) { semPos++; return null; } sai.push({ id: p.id, lat: o.lat, lng: o.lng, txt, cls, sel: mp.sel === p.id }); return o; };
-  if (mp.tipo === 'rota' || mp.tipo === 'previa') {
-    const x = idsDaRota(mp); linha = [{ lat: x.ini.lat, lng: x.ini.lng }];
+  const mp = F.mapa, sai = [], h = hoje(), vistos = new Set(); let linha = null, semPos = 0;
+  const por = (p, txt, cls) => { if (vistos.has(p.id)) return null; const o = pos(p); if (!o) { semPos++; return null; } vistos.add(p.id); sai.push({ id: p.id, lat: o.lat, lng: o.lng, txt, cls, sel: mp.sel === p.id }); return o; };
+  // camada Rota: as paradas numeradas e o caminho
+  if (comRotaNoMapa(mp)) {
+    const x = rotaDoMapa(mp); linha = [{ lat: x.ini.lat, lng: x.ini.lng }];
     x.ids.forEach((id, i) => { const p = D.pontos[id]; if (!p) return; const o = por(p, String(i + 1), !x.pv && feitaNoDia(id, h) ? 'pv' : 'pz'); if (o) linha.push(o); });
     if (temFim(x.fim)) linha.push({ lat: x.fim.lat, lng: x.fim.lng });
-    // 1.6.5: procurando no Google em cima da rota: em amarelo o que não está na lista; em branco o que já está na lista e não está na rota
-    if (mp.tipo === 'rota' && mp.g && F.perto && GM.st === 'ok' && !semSinal()) F.perto.itens.forEach(g => { if (!g.ja) return sai.push({ id: 'G:' + g.id, lat: g.lat, lng: g.lng, txt: '', cls: 'pn', sel: mp.sel === 'G:' + g.id }); const p = D.pontos[g.ja]; if (p && !x.ids.includes(p.id)) por(p, '', 'pb'); });
     if (x.ini.id !== 'FABRIL') sai.push({ id: 'INI', lat: x.ini.lat, lng: x.ini.lng, txt: 'I', cls: 'pini' });   // o começo da rota, quando não é a Fabril
     if (temFim(x.fim) && x.fim.id !== 'FABRIL') sai.push({ id: 'FIM', lat: x.fim.lat, lng: x.fim.lng, txt: 'T', cls: 'pini' });   // o término, quando é um endereço
-  } else if (mp.tipo === 'escolher') {
-    const r = rotaAtual(), m = F.m || {}; candidatos(m.destino === 'atual' && r ? r.id : null).forEach(p => { const tem = (m.mapaIds || []).includes(p.id); por(p, tem ? '✓' : '', tem ? 'pe' : 'pb'); });
-  } else if (mp.tipo === 'perto') {
-    // a busca no Google: todos os pontos da lista com a cor da situação e, por cima, em amarelo, o que o Google achou e ainda não está na lista.
-    // O que o Google achou só entra no mapa do Google (regra do Google); no mapa simples aparecem só os pontos da lista.
-    for (const p of Object.values(D.pontos)) { const o = pos(p); if (o) sai.push({ id: p.id, lat: o.lat, lng: o.lng, txt: '', cls: corDe(p), sel: mp.sel === p.id }); }
-    if (GM.st === 'ok' && !semSinal() && F.perto) F.perto.itens.forEach(x => { if (!x.ja) sai.push({ id: 'G:' + x.id, lat: x.lat, lng: x.lng, txt: '', cls: 'pn', sel: mp.sel === 'G:' + x.id }); });
-  } else { filtrarPontos(mp.modoVisita).forEach(p => por(p, '', corDe(p))); if (mp.tipo === 'pontos' && ehGestor()) equipeNoMapa().forEach(u => sai.push({ id: 'V:' + u.uid, lat: u.lat, lng: u.lng, txt: u.ini, cls: 'pvd', sel: mp.sel === 'V:' + u.uid })); }
+  }
+  // camada Lista: na montagem, os pontos que podem entrar (com ✓ nos escolhidos); na conferência, os que ainda podem entrar; nos outros, o filtro escolhido
+  if (mp.lista) {
+    // 1.7: o filtro vale também aqui (os escolhidos continuam à vista)
+    if (mp.montar) { const m = F.m || {}, fl = filtroDaMontagem(mp); candidatosDoMapa(mp).forEach(p => { const tem = (m.mapaIds || []).includes(p.id); if (tem || fl(p)) por(p, tem ? '✓' : '', tem ? 'pe' : 'pb'); }); }
+    else if (mp.previa) { const fl = filtroDaMontagem(mp); candidatosDoMapa(mp).forEach(p => { if (fl(p)) por(p, '', 'pb'); }); }
+    else { filtrarPontos(mp.modoVisita, mp.f).forEach(p => por(p, '', corDe(p))); if (ehGestor()) equipeNoMapa().forEach(u => sai.push({ id: 'V:' + u.uid, lat: u.lat, lng: u.lng, txt: u.ini, cls: 'pvd', sel: mp.sel === 'V:' + u.uid })); }
+  }
+  // camada Google: em amarelo o que não está na lista; o que já está na lista aparece com a cor da lista (em branco, se a Lista estiver desligada).
+  // Regra do Google: o que a busca acha só aparece em cima do mapa do Google.
+  if (mp.google && F.perto && GM.st === 'ok' && !semSinal()) F.perto.itens.forEach(g => { if (!g.ja) return sai.push({ id: 'G:' + g.id, lat: g.lat, lng: g.lng, txt: '', cls: 'pn', sel: mp.sel === 'G:' + g.id }); const p = D.pontos[g.ja]; if (p) por(p, '', mp.lista && !mp.montar && !mp.previa ? corDe(p) : 'pb'); });
   if (fabrilNoMapa(mp)) sai.push({ id: 'FABRIL', lat: FABRIL.lat, lng: FABRIL.lng, txt: 'F', cls: 'pfab' });
   const g = gpsRecente(); if (g) sai.push({ id: 'EU', lat: g.lat, lng: g.lng, txt: '', cls: 'peu' });
   return { itens: sai, linha, semPos };
@@ -1855,9 +1998,9 @@ function notaDoMapa(semPos) {
   else if (GM.st === 'erro') q.push((ehGestor() ? GM.erro : 'O Google Maps não está liberado para o app agora.') + ' Este é o mapa simples do app.');   // o motivo técnico só interessa a quem cuida do app; fica também no quadro do fim da tela Mais
   else if (semSinal()) q.push('Sem sinal: este é o mapa simples do app, sem ruas. Com sinal, aqui aparece o Google Maps.');
   else if (GM.st !== 'ok') q.push(GM.st === 'carregando' ? 'Abrindo o Google Maps…' : 'O Google Maps não abriu agora: este é o mapa simples do app.');
-  else if ((mp.tipo === 'rota' || mp.tipo === 'previa') && !mp.pelasRuas) q.push(mp.pediu && !mp.falhou ? 'Buscando o trajeto pelas ruas…' : 'A linha liga as paradas em linha reta.');
-  if (mp.tipo === 'perto') q.push(GM.st === 'ok' && !semSinal() ? 'Em amarelo, o que o Google achou e ainda não está na sua lista. Nada disso fica guardado no app.' : 'Pela regra do Google, o que a busca acha só aparece em cima do mapa do Google. Veja na lista.');
-  if (semPos && mp.tipo !== 'perto') q.push(plural(semPos, 'ponto sem localização não aparece', 'pontos sem localização não aparecem') + ' no mapa.');
+  else if (comRotaNoMapa(mp) && !mp.pelasRuas) q.push(mp.pediu && !mp.falhou ? 'Buscando o trajeto pelas ruas…' : 'A linha liga as paradas em linha reta.');
+  if (mp.google) q.push(GM.st === 'ok' && !semSinal() ? 'Em amarelo, o que o Google achou e ainda não está na sua lista. Nada disso fica guardado no app.' : 'Pela regra do Google, o que a busca acha só aparece em cima do mapa do Google. Veja na lista.');
+  if (semPos) q.push(plural(semPos, 'ponto sem localização não aparece', 'pontos sem localização não aparecem') + ' no mapa.');
   if (GM.st === 'ok' && !semSinal() && GM.camada && GM.camada.itens.length > PINOS_MAX) q.push('São ' + GM.camada.itens.length.toLocaleString('pt-BR') + ' pontos: o mapa mostra até ' + PINOS_MAX + ' de cada vez, os do meio da tela. Aproxime ou arraste para ver os outros.');
   return q.map(esc).join(' ');
 }
@@ -1870,10 +2013,14 @@ async function montarMapa() {
   const d = itensDoMapa();
   try {
     const mapa = mapaGoogle(l); GM.camada.por(d.itens); GM.linha.setPath(mp.caminho || d.linha || []); circulosPerto(mapa, mp);
-    if (mp.ajustar && mp.tipo === 'perto') { mp.ajustar = false; ajustarPerto(mapa); }
+    if (mp.ajustar && mp.google && !comRotaNoMapa(mp)) { mp.ajustar = false; ajustarPerto(mapa); }
+    if (mp.ajustar && comRotaNoMapa(mp)) {   // com a rota na tela, o mapa se encaixa na rota (não na lista inteira)
+      mp.ajustar = false; const x = rotaDoMapa(mp), b = new google.maps.LatLngBounds(); b.extend({ lat: x.ini.lat, lng: x.ini.lng }); if (temFim(x.fim)) b.extend({ lat: x.fim.lat, lng: x.fim.lng });
+      x.ids.forEach(id => { const o = pos(D.pontos[id] || {}); if (o) b.extend(o); }); mapa.fitBounds(b, 40);
+    }
     if (mp.ajustar) { mp.ajustar = false; if (d.itens.length > 1) { const b = new google.maps.LatLngBounds(); d.itens.forEach(i => b.extend({ lat: i.lat, lng: i.lng })); mapa.fitBounds(b, 40); } else { const m0 = d.itens[0] || centroAqui(); mapa.setCenter({ lat: m0.lat, lng: m0.lng }); mapa.setZoom(13); } }
     // o traçado pelas ruas, uma vez por rota aberta
-    if ((mp.tipo === 'rota' || mp.tipo === 'previa') && !mp.caminho && !mp.pediu) {
+    if (comRotaNoMapa(mp) && !mp.caminho && !mp.pediu) {
       mp.pediu = true; const x = idsDaRota(mp), ch = chaveCaminho(x.ids, x.ini, x.fim);
       const pronto = c => { if (F.mapa !== mp || T.nome !== 'mapa') return; if (c) { mp.caminho = c; mp.pelasRuas = true; GM.linha.setPath(c); } else mp.falhou = true; pintar('mapa-nota', notaDoMapa(d.semPos)); };
       if (GM.caminhos[ch]) pronto(GM.caminhos[ch]); else if (x.pv && x.pv.caminho) pronto(x.pv.caminho);
@@ -1885,7 +2032,7 @@ async function montarMapa() {
 // as áreas onde a busca no Google já procurou, desenhadas no mapa como círculos claros
 function circulosPerto(mapa, mp) {
   (GM.circulos || []).forEach(c => c.setMap(null));
-  GM.circulos = (mp.tipo === 'perto' || mp.g) && F.perto ? F.perto.areas.map(a => new google.maps.Circle({ map: mapa, center: { lat: a.lat, lng: a.lng }, radius: a.r, strokeColor: '#292C96', strokeOpacity: 0.55, strokeWeight: 1, fillColor: '#FDE000', fillOpacity: 0.07, clickable: false })) : [];
+  GM.circulos = mp.google && F.perto ? F.perto.areas.map(a => new google.maps.Circle({ map: mapa, center: { lat: a.lat, lng: a.lng }, radius: a.r, strokeColor: '#292C96', strokeOpacity: 0.55, strokeWeight: 1, fillColor: '#FDE000', fillOpacity: 0.07, clickable: false })) : [];
 }
 // ao abrir o mapa da busca: mostra as áreas procuradas e o que foi achado; sem busca ainda, mostra em volta de onde a pessoa está
 function ajustarPerto(mapa) {
@@ -1897,55 +2044,120 @@ function ajustarPerto(mapa) {
 function atualizarMapa() {
   if (T.nome !== 'mapa' || !F.mapa) return; pintar('mapa-cartao', cartaoDoMapa());
   const pe = document.getElementById('mapa-pe'); if (!(pe && digitando() && pe.contains(document.activeElement))) pintar('mapa-pe', peDoMapa());   // não apaga o que a pessoa está escrevendo no rodapé
-  if ((F.mapa.tipo === 'perto' || F.mapa.g) && F.perto) {   // o tipo ou o texto da busca podem ter mudado
-    const sb = document.querySelector('.topo .sub'); if (sb) sb.textContent = subPerto();
+  pintar('mapa-leg', legendaDoMapa(F.mapa));
+  if (F.mapa.google && F.perto) {   // o tipo ou o texto da busca podem ter mudado
+    const sb = document.querySelector('.topo .sub'); if (sb) sb.textContent = subMapa(F.mapa);
     const tp = document.getElementById('perto-topo'); if (tp && !(digitando() && tp.contains(document.activeElement))) pintar('perto-topo', topoPerto());
   }
   montarMapa();
 }
+// 1.6.8: o cartão é o mesmo em qualquer camada e em qualquer lugar de onde o mapa foi aberto
 function cartaoDoMapa() {
-  const mp = F.mapa, x = (mp.tipo === 'perto' || mp.g) && lugarDoPino(mp.sel);
-  if (x && mp.g) return cartaoLugarRota(x);
-  if (x) return '<div class="cartao" style="margin:10px 0 0"><div class="pnome">' + esc(x.nome) + '</div><div class="pend">' + esc(x.end || 'Sem endereço no Google') + '</div><div class="selos">' + selo('a ' + metros(x.d)) + selo('Não está na lista', 'at') + '</div>' +
-    '<div class="pb"><a class="b m" href="' + esc(linkLugar(x)) + '" target="_blank" rel="noopener" data-a="ext">' + ic('ir', 18) + 'Ir</a><button class="b p m" data-a="pertoCadastrar:' + esc(x.id) + '">' + ic('prospect', 18) + 'Cadastrar</button></div></div>';
+  const mp = F.mapa, x = mp.google && lugarDoPino(mp.sel);
+  if (x) return cartaoLugarMapa(x);
   const p = mp.sel && D.pontos[mp.sel];
-  if (!p) return '<div class="s" style="text-align:center;padding:10px 4px">' + (mp.tipo === 'escolher' ? 'Toque nos pontos para pôr ou tirar da rota. A ordem das paradas é calculada depois.' : mp.tipo === 'perto' ? 'Toque numa bolinha para ver quem é. As amarelas ainda não estão na sua lista.' : 'Toque num ponto para ver quem é.') + '</div>';
-  const tem = mp.tipo === 'escolher' && (F.m.mapaIds || []).includes(p.id), id = esc(p.id);
-  const bot = mp.tipo === 'escolher' ? '<button class="b ' + (tem ? '' : 'p ') + 'm" data-a="pino:' + id + '">' + (tem ? 'Tirar da rota' : 'Pôr na rota') + '</button><button class="b m" data-a="ponto:' + id + '">Ver a ficha</button>' :
-    mp.tipo === 'previa' ? '<button class="b m" data-a="ponto:' + id + '">Ver a ficha</button>' :
-    mp.tipo === 'rota' && mp.g && !idsDaRota(mp).ids.includes(p.id) ? '<button class="b p m" data-a="porNaRota:' + id + '">Pôr na rota</button><button class="b m" data-a="ponto:' + id + '">Ver a ficha</button>' :
-    '<a class="b m" href="' + esc(linkIr(p)) + '" target="_blank" rel="noopener" data-a="ext">' + ic('ir', 18) + 'Ir</a><button class="b m" data-a="ponto:' + id + '">Ficha</button><button class="b p m" data-a="visita:' + id + '">Registrar visita</button>';
-  return '<div class="cartao" style="margin:10px 0 0"><div class="pnome">' + esc(p.nome) + '</div><div class="pend">' + esc([p.endereco || 'Sem endereço', p.bairro].filter(Boolean).join(' · ')) + '</div>' + (aConfirmar(p) ? linhaGoogle(p.place_id) : '') + '<div class="selos">' + (seloSit(situacao(p)) || selo('Pendente')) + selosPonto(p) + (tem ? selo('Escolhido para a rota', 'az') : '') + '</div><div class="pb">' + bot + '</div></div>';
+  if (!p) return '<div class="s" style="text-align:center;padding:10px 4px">' + (mp.montar ? 'Toque nos pontos para pôr ou tirar da rota. A ordem das paradas é calculada depois.' : mp.google ? 'Toque numa bolinha para ver quem é. As amarelas ainda não estão na sua lista.' : 'Toque num ponto para ver quem é.') + '</div>';
+  const id = esc(p.id), al = alvoDoMapa(mp), na = al.tem(p.id), outra = !na && todasRotasDoDia().find(r => r.paradas.includes(p.id) && (!al.r || r.id !== al.r.id) && r.id !== menosDaMontagem(F.m));
+  const bot = '<a class="b m" href="' + esc(linkIr(p)) + '" target="_blank" rel="noopener" data-a="ext">' + ic('ir', 18) + 'Ir</a><button class="b m" data-a="ponto:' + id + '">Ficha</button>' +
+    '<button class="b m" data-a="visita:' + id + '">Registrar visita</button><button class="b ' + (na ? '' : 'p ') + 'm" data-a="' + (na ? al.tirar : al.por) + ':' + id + '">' + (na ? 'Tirar da rota' : al.rotulo) + '</button>';
+  return '<div class="cartao" style="margin:10px 0 0"><div class="pnome">' + esc(p.nome) + '</div><div class="pend">' + esc([p.endereco || 'Sem endereço', p.bairro].filter(Boolean).join(' · ')) + '</div>' + (aConfirmar(p) ? linhaGoogle(p.place_id) : '') +
+    '<div class="selos">' + (seloSit(situacao(p)) || selo('Pendente')) + selosPonto(p) + (mp.montar && na ? selo('Escolhido para a rota', 'az') : na ? selo('Nesta rota', 'az') : '') + (outra ? selo('Na ' + nomeRotaMin(outra), 'az') : '') + '</div><div class="pb pb4">' + bot + '</div></div>';
 }
-const peDoMapa = () => F.mapa.tipo === 'escolher' ? '<div class="s" style="margin-bottom:8px">' + plural((F.m.mapaIds || []).length, 'ponto escolhido', 'pontos escolhidos') + ' no mapa.</div><button class="b p g" data-a="verRota"' + ((F.m.mapaIds || []).length ? '' : ' disabled') + '>Ver a rota</button>' : F.mapa.tipo === 'perto' ? pePerto() : F.mapa.tipo === 'rota' ? peRotaGoogle() : '';
+// um lugar do Google: Ir · Cadastrar · Pôr na rota
+function cartaoLugarMapa(x) {
+  const al = alvoDoMapa(F.mapa), por = al.ok ? '<button class="b p m" data-a="gNaRota:' + esc(x.id) + '">' + (F.mapa.montar || F.mapa.previa ? 'Pôr na rota' : al.rotulo) + '</button>' : '';
+  return '<div class="cartao" style="margin:10px 0 0"><div class="pnome">' + esc(x.nome) + '</div><div class="pend">' + esc(x.end || 'Sem endereço no Google') + '</div><div class="selos">' + (x.d != null ? selo('a ' + metros(x.d)) : '') + selo('Não está na lista', 'at') + '</div>' +
+    '<div class="pb pb4"><a class="b m" href="' + esc(linkLugar(x)) + '" target="_blank" rel="noopener" data-a="ext">' + ic('ir', 18) + 'Ir</a><button class="b m" data-a="pertoCadastrar:' + esc(x.id) + '">' + ic('prospect', 18) + 'Cadastrar</button>' + por + '</div>' +
+    (por ? '<div class="s" style="margin-top:6px">Do Google, o app guarda só o código do lugar e a localização. Ao chegar, registre a visita com o nome da fachada: aí ele vira um ponto da lista.</div>' : '') + '</div>';
+}
+const peDoMapa = () => {
+  const mp = F.mapa; let h = mp.google ? pePerto() : '';
+  if (mp.montar) h += (h ? '<div style="height:10px"></div>' : '') + '<div class="s" style="margin-bottom:8px">' + plural((F.m.mapaIds || []).length, 'ponto escolhido', 'pontos escolhidos') + ' no mapa.</div><button class="b p g" data-a="verRota"' + ((F.m.mapaIds || []).length ? '' : ' disabled') + '>Ver a rota</button>';
+  return h;
+};
 A.pino = id => {
   if (String(id).startsWith('V:')) { const u = ultimasDaEquipe().find(x => 'V:' + x.uid === id); if (u) { const p = D.pontos[u.v.ponto_id]; aviso(u.nome + ': última visita às ' + new Date(u.v.inicio).toTimeString().slice(0, 5) + (p ? ', em ' + p.nome : '') + '.'); } return; }
-  const mp = F.mapa; if (!mp || id === 'FABRIL' || id === 'EU' || (!D.pontos[id] && !((mp.tipo === 'perto' || mp.g) && lugarDoPino(id))) || (mp.arrastou && Date.now() - mp.arrastou < 350)) return;
-  if (mp.tipo === 'escolher') { const a = F.m.mapaIds = F.m.mapaIds || [], i = a.indexOf(id); if (i >= 0) a.splice(i, 1); else { a.push(id); const t = avisoRetorno(D.pontos[id], quemDaMontagem(F.m)); if (t) aviso(t); } }
-  mp.sel = id; atualizarMapa(); if (mp.tipo === 'perto' || mp.g) mostrarCartao();
+  const mp = F.mapa; if (!mp || id === 'FABRIL' || id === 'EU' || (!D.pontos[id] && !(mp.google && lugarDoPino(id))) || (mp.arrastou && Date.now() - mp.arrastou < 350)) return;
+  if (mp.montar && D.pontos[id]) { const a = F.m.mapaIds = F.m.mapaIds || [], i = a.indexOf(id); if (i >= 0) a.splice(i, 1); else { a.push(id); const t = avisoRetorno(D.pontos[id], quemDaMontagem(F.m)); if (t) aviso(t); } }
+  mp.sel = id; atualizarMapa(); mostrarCartao();
 };
+// 1.6.8: abrir o mapa. tipo = de onde ele foi aberto; as camadas começam ligadas conforme o lugar, e a pessoa liga e desliga no alto.
 A.mapa = tipo => {
-  if (tipo === 'escolher' && F.m) { F.m.modo = 'mapa'; marcarRetornosNoMapa(F.m); }
-  F.mapa = { tipo, sel: null, z: 1, cx: null, cy: null, ajustar: true, caminho: null, pediu: false, falhou: false, pelasRuas: false, modoVisita: T.nome === 'pontos' && T.p.modo === 'visita' };
+  const montar = tipo === 'escolher', previa = tipo === 'previa', dePontos = T.nome === 'pontos';
+  if (montar && F.m) { F.m.modo = 'mapa'; marcarRetornosNoMapa(F.m); }
+  F.mapa = { tipo, montar, previa, sel: null, z: 1, cx: null, cy: null, ajustar: true, caminho: null, pediu: false, falhou: false, pelasRuas: false, modoVisita: dePontos && T.p.modo === 'visita',
+    rota: previa || tipo === 'rota' || (tipo === 'pontos' && !!rotaAtual()), lista: !previa, google: tipo === 'perto' && USA_GOOGLE,
+    f: dePontos && tipo !== 'perto' ? { f: filtrosDe(F.pt, dePontos && T.p.modo === 'visita'), q: F.pt.q || '', bairro: F.pt.bairro || '' } : { f: [], q: '', bairro: '' } };   // o filtro começa em Todos, ou o mesmo da lista de Pontos
+  if (F.mapa.google && !F.perto) F.perto = novoPerto();
   ir('mapa', { tipo });
 };
+const reabrirRotaNoMapa = mp => Object.assign(mp, { sel: null, ajustar: true, caminho: null, pediu: false, falhou: false, pelasRuas: false });
+A.camada = c => {
+  const mp = F.mapa; if (!mp) return;
+  if (c === 'google') {
+    if (!USA_GOOGLE) return; if (!mp.google && semSinal()) return aviso('Sem sinal: a busca no Google precisa de internet.');
+    mp.google = !mp.google; if (mp.google && !F.perto) F.perto = novoPerto();
+    if (!mp.google) { (GM.circulos || []).forEach(x => x.setMap(null)); if (String(mp.sel || '').startsWith('G:')) mp.sel = null; }
+  } else if (c === 'rota') { mp.rota = !mp.rota; if (mp.rota) reabrirRotaNoMapa(mp); }
+  else if (c === 'lista') mp.lista = !mp.lista;
+  desenhar(true);
+};
+A.mapaFiltro = k => { const mp = F.mapa; if (!mp) return; mp.f.f = trocarFiltro(mp.f, k, mp.modoVisita); mp.sel = null; desenhar(true); };
+A.mapaBuscaLimpar = () => { const mp = F.mapa; if (!mp) return; mp.f.q = ''; mp.f.bairro = ''; desenhar(true); };
+// o gestor (ou quem tem mais de uma rota hoje) escolhe no alto qual rota aparece; ela vira a rota aberta, como ao tocar nela no Hoje
+A.mapaRota = id => { if (!rotasDoDia().some(r => r.id === id)) return; D.prefs.rota = id; salvar('prefs'); const mp = F.mapa; if (!mp) return; mp.rota = true; reabrirRotaNoMapa(mp); desenhar(true); };
+// na conferência, o mapa também põe e tira paradas da rota que ainda não foi salva
+function inserirNaPrevia(id) {
+  const pv = F.m.previa, o = pos(D.pontos[id] || {}), ps = pv.ids.slice(); let k = ps.length;
+  if (o) { let melhor = Infinity; for (let i = 0; i <= ps.length; i++) { const a = i === 0 ? pv.ini : pos(D.pontos[ps[i - 1]] || {}), b = i < ps.length ? pos(D.pontos[ps[i]] || {}) : (temFim(pv.fim) ? pv.fim : null); const c = (a ? dist(a, o) : 0) + (b ? dist(o, b) : 0) - (a && b ? dist(a, b) : 0); if (c < melhor - 0.5) { melhor = c; k = i; } } }
+  ps.splice(k, 0, id); pv.ids = ps; mexeuNaPrevia(); return k;
+}
+A.pvPor = id => {
+  const pv = F.m && F.m.previa; if (!pv) return; if (pv.ids.includes(id)) return aviso('Este ponto já está na rota.');
+  const k = inserirNaPrevia(id), t = avisoRetorno(D.pontos[id], quemDaMontagem(F.m)); if (F.mapa) reabrirRotaNoMapa(F.mapa), F.mapa.sel = id, F.mapa.ajustar = false;
+  aviso('Posto na rota: parada ' + (k + 1) + ', no lugar que menos aumenta o caminho.' + (t ? ' ' + t : '')); atualizarMapa();
+};
+A.pvTirar = id => { const pv = F.m && F.m.previa; if (!pv) return; pv.ids = pv.ids.filter(i => i !== id); mexeuNaPrevia(); if (F.mapa) reabrirRotaNoMapa(F.mapa), F.mapa.sel = id, F.mapa.ajustar = false; aviso('Tirado da rota.'); atualizarMapa(); };
 A.ondeEstou = async () => {
   aviso('Pegando a localização…'); const g = await pegarGps(), mp = F.mapa; if (g.erro) return aviso(g.erro); if (T.nome !== 'mapa' || !mp) return;
   if (GM.st === 'ok' && GM.mapa && GM.el && GM.el.isConnected) { GM.mapa.panTo({ lat: g.lat, lng: g.lng }); if (GM.mapa.getZoom() < 15) GM.mapa.setZoom(15); } else { mp.cx = g.lng * KLNG; mp.cy = -g.lat; mp.z = Math.max(mp.z || 1, 6); }
   atualizarMapa();
 };
+const LEG_MAPA = { pz: 'Pendente', pv: 'Comprou', pa: 'Voltar', pc: 'Não comprou', px: 'Não encontrado', pk: 'Cliente ativo', pki: 'Cliente inativo', pf: 'Fora da rota', pr: 'Grande rede', pvd: 'Última visita de hoje (equipe)', pn: 'No Google, fora da lista', pe: 'Escolhido' };
+function legendaDoMapa(mp) {
+  const d = itensDoMapa(), cs = new Set(d.itens.filter(i => !i.txt || i.cls === 'pe' || i.cls === 'pvd').map(i => i.cls)), bola = (c, t) => '<span><i class="' + c + '"></i>' + t + '</span>';
+  let h = comRotaNoMapa(mp) ? bola('pz', 'Com número: parada da rota') : '';
+  ['pz', 'pv', 'pa', 'pc', 'px', 'pk', 'pki', 'pf', 'pr', 'pe', 'pb', 'pn', 'pvd'].forEach(c => { if (!cs.has(c)) return; h += bola(c, c === 'pb' ? (mp.montar ? 'Falta visitar' : mp.previa ? 'Pode entrar na rota' : 'Na lista') : LEG_MAPA[c]); });
+  if (d.itens.some(i => i.id === 'INI')) h += bola('pini', 'Começo');
+  if (d.itens.some(i => i.id === 'FIM')) h += bola('pini', 'Término');
+  if (d.itens.some(i => i.cls === 'pfab')) h += bola('pfab', 'Fabril');
+  return h;
+}
+// "a sua rota", "a sua rota com Jander" ou "a rota de Jander"
+const deQuemMonta = () => { const q = quemDaMontagem(F.m || {}), eu = D.usuario.id, os = q.filter(i => i !== eu).map(nomeDe).filter(Boolean); return q.includes(eu) ? 'a sua rota' + (os.length ? ' com ' + juntar(os) : '') : 'a rota de ' + (juntar(os) || 'outra pessoa'); };
+const subMapa = mp => {
+  if (mp.montar) return 'Montando a rota';
+  const r = rotaAtual(), ps = [];
+  if (mp.previa) ps.push('A rota que você está conferindo'); else if (mp.rota) ps.push(r ? r.nome || 'Rota' : 'Escolha a rota no alto');
+  if (mp.lista && !mp.previa) ps.push(rotuloFiltro(mp.f, mp.modoVisita) + (mp.f.q ? ' · "' + mp.f.q + '"' : ''));
+  if (mp.google) ps.push(F.perto ? subPerto().replace(' · pelo Google Maps', ' no Google') : 'Google');
+  return ps.join(' · ') || 'Ligue uma camada no alto';
+};
 TELAS.mapa = () => {
-  const mp = F.mapa; if (!mp || ((mp.tipo === 'escolher' || mp.tipo === 'previa') && !F.m) || (mp.tipo === 'perto' && !F.perto)) return TELAS.hoje();
-  const pe = peDoMapa(), bola = (c, t) => '<span><i class="' + c + '"></i>' + t + '</span>';
-  if (mp.tipo === 'perto') {
-    const leg = bola('pn', 'Novo no Google') + bola('pz', 'Pendente') + bola('pv', 'Comprou') + bola('pa', 'Voltar') + bola('pc', 'Não comprou') + bola('pf', 'Fora da rota') + bola('pr', 'Grande rede');
-    const c = '<div id="perto-topo">' + topoPerto() + '</div><div id="mapa-lugar" class="mapa-lugar baixo"><div class="vazio">Abrindo o mapa…</div></div><div class="leg">' + leg + (fabrilNoMapa(mp) ? bola('pfab', 'Fabril') : '') + '<button type="button" class="b t m" data-a="ondeEstou">' + ic('alvo', 16) + 'Onde estou</button></div><div id="mapa-cartao">' + cartaoDoMapa() + '</div><div id="mapa-nota" class="s" style="margin-top:8px"></div>';
-    return { titulo: 'Procurar no mapa', sub: subPerto(), corpo: c, pe: '<div id="mapa-pe">' + pe + '</div>', depois: montarMapa };
-  }
-  const leg = mp.tipo === 'pontos' ? (F.pt.f === 'redes' && !mp.modoVisita ? bola('pr', 'Grande rede (fora da rota)') : bola('pz', 'Pendente') + bola('pv', 'Comprou') + bola('pa', 'Voltar') + bola('pc', 'Não comprou') + (/^(todos|fora)$/.test(F.pt.f) && !mp.modoVisita ? bola('pf', 'Fora da rota') + bola('pr', 'Grande rede') : '')) + (ehGestor() && equipeNoMapa().length ? bola('pvd', 'Última visita de hoje (equipe)') : '') : mp.tipo === 'escolher' ? bola('pe', 'Escolhido') + bola('pb', 'Falta visitar') : bola('pz', 'A fazer') + (mp.tipo === 'rota' ? bola('pv', 'Feita') : '') + (x => (x.ini.id !== 'FABRIL' ? bola('pini', 'Começo') : '') + (temFim(x.fim) && x.fim.id !== 'FABRIL' ? bola('pini', 'Término') : ''))(idsDaRota(mp));
-  const gr = mp.tipo === 'rota' && mp.g && F.perto, leg2 = gr ? bola('pn', 'No Google, fora da lista') + bola('pb', 'Na lista, fora da rota') : '';
-  const c = (gr ? '<div id="perto-topo">' + topoPerto() + '</div>' : '') + '<div id="mapa-lugar" class="mapa-lugar' + (pe ? ' baixo' : '') + '"><div class="vazio">Abrindo o mapa…</div></div><div class="leg">' + leg + leg2 + (fabrilNoMapa(mp) ? bola('pfab', 'Fabril') : '') + '<button type="button" class="b t m" data-a="ondeEstou">' + ic('alvo', 16) + 'Onde estou</button></div><div id="mapa-nota" class="s"></div><div id="mapa-cartao">' + cartaoDoMapa() + '</div>';
-  return { titulo: mp.tipo === 'pontos' ? 'Mapa dos pontos' : mp.tipo === 'escolher' ? 'Escolher no mapa' : 'Rota no mapa', sub: mp.tipo === 'pontos' ? 'Os pontos do filtro escolhido na lista' : mp.tipo === 'escolher' ? 'Só os pontos que faltam visitar' : mp.g && F.perto ? subPerto() : 'Na ordem das paradas', corpo: c, pe: pe ? '<div id="mapa-pe">' + pe + '</div>' : null, depois: montarMapa };
+  const mp = F.mapa; if (!mp || ((mp.montar || mp.previa) && !F.m)) return TELAS.hoje();
+  if (mp.google && !F.perto) F.perto = novoPerto();
+  const pe = peDoMapa(), rs = rotasDoDia(), ra = rotaAtual();
+  const chip = (c, t, on) => '<button type="button" class="chip' + (on ? ' at' : '') + '" aria-pressed="' + !!on + '" data-a="camada:' + c + '">' + t + '</button>';
+  let topo = mp.montar ? '<div class="faixa-montar">' + ic('rota', 18) + '<span>Montando ' + esc(deQuemMonta()) + '. Toque nos pontos para pôr ou tirar.</span></div>' : '';
+  topo += '<div class="rola camadas">' + (mp.montar ? '' : chip('rota', 'Rota', mp.rota)) + chip('lista', 'Lista', mp.lista) + (USA_GOOGLE ? chip('google', 'Google', mp.google) : '') + '</div>';
+  if (mp.rota && !mp.montar && !mp.previa && rs.length > 1) topo += '<div class="rola">' + rs.slice().sort(ordemRotas).map(r => '<button type="button" class="chip' + (ra && ra.id === r.id ? ' at' : '') + '" data-a="mapaRota:' + esc(r.id) + '">' + esc(r.nome || 'Rota') + '</button>').join('') + '</div>';
+  if (mp.rota && !mp.montar && !mp.previa && !rs.length) topo += '<div class="s" style="margin:-2px 0 8px">Ainda não há rota hoje. Monte a rota em Mais.</div>';
+  if (mp.lista) topo += '<div class="linha-filtro">' + botaoFiltro('mapa', mp.modoVisita, mp.montar || mp.previa ? candidatosDoMapa(mp) : null) + '</div>' +
+    (mp.f.q || mp.f.bairro ? '<div class="s" style="margin:-2px 0 8px">Só os da busca' + (mp.f.q ? ' "' + esc(mp.f.q) + '"' : '') + (mp.f.bairro ? ' no bairro ' + esc(mp.f.bairro) : '') + '. <button type="button" class="lk" style="padding:0" data-a="mapaBuscaLimpar">Ver todos</button></div>' : '');
+  if (mp.google) topo += '<div id="perto-topo">' + topoPerto() + '</div>';
+  const c = topo + '<div id="mapa-lugar" class="mapa-lugar' + (pe ? ' baixo' : '') + '"><div class="vazio">Abrindo o mapa…</div></div><div class="leg"><span id="mapa-leg" style="display:contents">' + legendaDoMapa(mp) + '</span><button type="button" class="b t m" data-a="ondeEstou">' + ic('alvo', 16) + 'Onde estou</button></div>' +
+    '<div id="mapa-nota" class="s"></div><div id="mapa-cartao">' + cartaoDoMapa() + '</div>';
+  return { titulo: 'Mapa', sub: subMapa(mp), corpo: c, pe: pe ? '<div id="mapa-pe">' + pe + '</div>' : null, depois: montarMapa };
 };
 
 // ---------- Procurar no Google: açougues, mercados ou o que a pessoa escrever, em volta de onde ela está ou na área que ela escolher no mapa.
@@ -1957,13 +2169,13 @@ const PERTO_MAX = 20;   // o Google devolve no máximo 20 lugares por pedido
 const TEXTO_CARNE = 'açougue casa de carnes';
 const novoPerto = (tipo, texto) => ({ tipo: tipo || 'carne', texto: texto || '', st: 'vazio', itens: [], areas: [], erro: '', g: null, cheio: false, ult: null });
 const ocupadoPerto = b => b.st === 'gps' || b.st === 'buscando';
-const noMapaPerto = () => T.nome === 'mapa' && !!F.mapa && (F.mapa.tipo === 'perto' || (F.mapa.tipo === 'rota' && !!F.mapa.g));   // 1.6.5: a busca também no mapa da rota
+const noMapaPerto = () => T.nome === 'mapa' && !!F.mapa && !!F.mapa.google;   // 1.6.8: a camada Google do mapa único
 const novosPerto = () => F.perto ? F.perto.itens.filter(x => !x.ja).length : 0;
 function pintarPerto() { if (T.nome === 'perto') desenhar(true); else if (noMapaPerto()) atualizarMapa(); }
 A.porPerto = () => {
   if (!USA_GOOGLE) return; if (semSinal()) return aviso('Sem sinal: a busca no Google precisa de internet.');
   const a = F.perto; F.perto = novoPerto(a && a.tipo, a && a.texto);
-  ir('perto'); if (F.perto.tipo !== 'texto' || F.perto.texto.trim()) buscarPerto({ aqui: true });
+  A.mapa('perto'); if (F.perto.tipo !== 'texto' || F.perto.texto.trim()) buscarPerto({ aqui: true });   // 1.6.8: abre o mapa, com a Lista e o Google
 };
 // trocar o tipo começa uma busca nova: na lista, em volta de onde a pessoa está; no mapa, na área que está na tela
 A.pertoTipo = t => {
@@ -2083,9 +2295,11 @@ function pePerto() {
   const b = F.perto; if (!b) return '';
   const pode = GM.st === 'ok' && !semSinal(), nv = novosPerto();
   return '<button class="b p g" data-a="pertoArea"' + (ocupadoPerto(b) || !pode ? ' disabled' : '') + '>' + ic('busca', 18) + (ocupadoPerto(b) ? 'Procurando…' : 'Procurar nesta área') + '</button>' +
+    (b.st === 'erro' ? '<div class="gps at" style="margin-top:8px">' + ic('alerta', 20) + '<span>Não deu para procurar. ' + esc(b.erro) + '</span></div>' : '') +   // 1.6.8: no mapa único, o erro da busca aparece aqui
     '<div class="s" style="margin-top:6px">' + (!pode ? 'Sem o mapa do Google, a busca fica só na lista. ' : b.itens.length ? plural(nv, 'lugar novo', 'lugares novos') + ' no mapa' + (b.areas.length > 1 ? ', de ' + b.areas.length + ' buscas' : '') + '. ' : '') +
     (b.cheio ? 'Veio o máximo do Google (20): aproxime o mapa e procure de novo.' : 'Até 20 por busca: mova o mapa e procure de novo para somar mais.') +
-    (b.itens.length || b.areas.length ? ' <button type="button" class="lk" style="padding:0;background:none;border:0" data-a="pertoLimpar">Limpar</button>' : '') + '</div>';
+    (b.itens.length || b.areas.length ? ' <button type="button" class="lk" style="padding:0;background:none;border:0" data-a="pertoLimpar">Limpar</button>' : '') +
+    (b.itens.length ? ' · <button type="button" class="lk" style="padding:0;background:none;border:0" data-a="ir:perto">Ver em lista</button>' : '') + '</div>';
 }
 // tocou num ponto do mapa da busca: o cartão dele aparece acima do rodapé
 function mostrarCartao() {
@@ -2103,7 +2317,7 @@ A.pertoCadastrar = id => {
 // Não achou: localiza pelo endereço (Google). O nome, o endereço e o telefone do Google NÃO são guardados (contrato do Google);
 // a localização do Google só pode ficar guardada por até 30 dias: grava a data (local_google_em) e o botão Renovar busca de novo antes de vencer.
 const CONF_VENCE = 25;   // dias: depois disso a localização do Google entra na lista de renovar (o limite do Google é 30)
-const conferirNovos = () => Object.values(D.pontos).filter(p => /^Receita/.test(p.fonte || '') && !p.google_conferido_em);
+const conferirNovos = () => Object.values(D.pontos).filter(p => /^(Receita|Nota fiscal)/.test(p.fonte || '') && !p.google_conferido_em);   // 1.7: e os clientes que vieram das notas
 const conferirRenovar = () => { const lim = diaLocal(new Date(Date.now() - CONF_VENCE * 864e5)); return Object.values(D.pontos).filter(p => p.local_google_em && p.local_google_em <= lim && p.lat_gps == null); };
 const CENTROS = { AM: { lat: -3.0731, lng: -60.0250, raio: 30000 }, RR: { lat: 2.8235, lng: -60.6758, raio: 20000 } };
 function centroDe(p) { const u = ufDe(p); return CENTROS[u] || (pracaDe(u).centro ? Object.assign({ raio: 25000 }, pracaDe(u).centro) : CENTROS.AM); }
@@ -2170,13 +2384,14 @@ async function conferirUm(p, libs) {
   const melhor = melhorLugar(p, (r && r.places) || []);
   const hojeD = hoje(), agora = new Date().toISOString(), base = { id: p.id, google_conferido_em: agora };
   // regra da rota (23/11, opção B): na rota só fica quem o Google mostra aberto; fechado e não achado saem da rota (continuam na lista e no mapa)
-  const sai = s => p.situacao_rota === 'Na rota' ? { situacao_rota: s } : {};
+  // 1.7: cliente que veio das notas existe (comprou): não sai da rota por não ser achado; fechado de vez só tira da rota o inativo
+  const nota = p.fonte === 'Nota fiscal', sai = s => !nota && p.situacao_rota === 'Na rota' ? { situacao_rota: s } : {};
   if (melhor) {
     const st = melhor.x.businessStatus, fechado = st === 'CLOSED_PERMANENTLY', parado = st === 'CLOSED_TEMPORARILY';
     F.conf.achou++; if (fechado) F.conf.fechado++; if (parado) F.conf.parado = (F.conf.parado || 0) + 1;
     const obs = melhor.outroNome ? { observacao: (p.observacao ? p.observacao + ' · ' : '') + 'No Google, neste endereço, aparece com outro nome (' + hojeD.slice(8, 10) + '/' + hojeD.slice(5, 7) + ').' } : {};
     return Object.assign(base, { place_id: melhor.x.id, lat: melhor.o.lat, lng: melhor.o.lng, localizacao: 'Google', local_google_em: hojeD }, obs,
-      fechado ? { situacao_rota: 'Fora da rota — fechado no Google' } : parado ? sai('Fora da rota — fechado temporariamente no Google') : {});
+      fechado && !(nota && statusCliente(p) === 'ativo') ? { situacao_rota: 'Fora da rota — fechado no Google' } : parado ? sai('Fora da rota — fechado temporariamente no Google') : {});
   }
   // não achou o lugar: sai da rota e localiza pelo endereço
   Object.assign(base, sai('Fora da rota — não achado no Google'));
@@ -2242,7 +2457,7 @@ function progConf() {
 }
 function pintarConf() { if (T.nome !== 'conferir') return; const e = document.getElementById('conf-prog'); if (e) e.innerHTML = progConf(); else desenhar(true); const b = document.querySelector('#conf-pe'); if (b) b.innerHTML = peConf(); }
 const peConf = () => { const fc = F.conf || {}; return fc.rodando ? '<button class="b g" data-a="confParar">Parar</button>' : '<button class="b p g" data-a="confComecar:novos"' + (conferirNovos().length ? '' : ' disabled') + '>Conferir agora</button>'; };
-TELAS.conferir = () => ({ titulo: 'Conferir no Google', sub: 'Pontos da base pública de CNPJ', corpo: telaConf(), pe: '<div id="conf-pe">' + peConf() + '</div>' });
+TELAS.conferir = () => ({ titulo: 'Conferir no Google', sub: 'Pontos novos da base de CNPJ e das notas fiscais', corpo: telaConf(), pe: '<div id="conf-pe">' + peConf() + '</div>' });
 
 // ---------- 1.6.5 (Etapas 4 e 5): o contador da cota do Google no mês, a linha "No Google" e o Google dentro da rota.
 // Regras do Google: o que vem dele aparece na tela e não fica guardado. Só o código do lugar (place_id) pode ficar guardado,
@@ -2376,36 +2591,38 @@ function tipoDoGoogle(nome, busca) {
   if (/acougue|carne|boutique|beef|boi/.test(n)) return 'Açougue';
   return busca === 'mercado' ? 'Mercadinho com açougue' : 'Açougue';
 }
-A.rotaGoogle = () => {
-  const mp = F.mapa; if (!mp || mp.tipo !== 'rota' || !USA_GOOGLE) return;
-  if (!rotaAtual()) return aviso('Ainda não há rota hoje. Monte a rota primeiro, em Mais.');
-  if (semSinal()) return aviso('Sem sinal: a busca no Google precisa de internet.');
-  const a = F.perto; F.perto = novoPerto(a && a.tipo, a && a.texto); F.perto.naRota = true; Object.assign(mp, { g: true, sel: null });
-  desenhar(true);
-  const ar = areaDoMapa(); if (ar && F.perto.tipo !== 'texto') buscarPerto(ar);
-};
-A.rotaGoogleFim = () => { const mp = F.mapa; if (!mp) return; Object.assign(mp, { g: false, sel: null }); GM.circulos && GM.circulos.forEach(c => c.setMap(null)); desenhar(true); };
+// 1.6.8: no mapa único, o Google é uma camada. Estes dois botões antigos só ligam e desligam a camada (sem gastar consulta: a busca é no "Procurar nesta área").
+A.rotaGoogle = () => { const mp = F.mapa; if (mp && !mp.google) A.camada('google'); };
+A.rotaGoogleFim = () => { const mp = F.mapa; if (mp && mp.google) A.camada('google'); };
+// o ponto da lista para um lugar do Google: o que já está na lista, ou um ponto novo "Lugar do Google (confirme o nome na porta)"
+function pontoDoGoogle(x) {
+  if (x.ja && D.pontos[x.ja]) return x.ja;
+  const pid = 'GR-' + uuid().slice(0, 8), pr = pracaDe(ufAtual()), agora = new Date().toISOString();
+  enfileirar('pontos', { id: pid, nome: NOME_GOOGLE, tipo: tipoDoGoogle(x.nome, F.perto.tipo), cidade: pr.cidade, uf: pr.uf, lat: x.lat, lng: x.lng, place_id: x.id, localizacao: 'Google', local_google_em: hoje(), google_conferido_em: agora,
+    situacao_rota: 'Na rota', origem: 'Google (pôr na rota)', fonte: 'Google Maps, posto na rota pelo app', confianca: 'Aberto no Google', criado_no_app: true, criado_por: D.usuario.id, criado_por_nome: D.usuario.nome, criado_em: agora });
+  x.ja = pid; GL[x.id] = GL[x.id] && GL[x.id].st === 'ok' ? GL[x.id] : { st: 'ok', nome: x.nome, end: x.end, status: 'OPERATIONAL', em: Date.now() };   // só na memória, para a linha "No Google"
+  return pid;
+}
 A.gNaRota = id => {
-  const x = F.perto && F.perto.itens.find(i => i.id === id), r = rotaAtual(), mp = F.mapa; if (!x) return;
-  if (!r) return aviso('Ainda não há rota hoje. Monte a rota primeiro, em Mais.');
-  let pid = x.ja;
-  if (pid && r.paradas.includes(pid)) return aviso('Este lugar já está na rota.');
-  if (!pid) {
-    pid = 'GR-' + uuid().slice(0, 8); const pr = pracaDe(ufAtual()), agora = new Date().toISOString();
-    enfileirar('pontos', { id: pid, nome: NOME_GOOGLE, tipo: tipoDoGoogle(x.nome, F.perto.tipo), cidade: pr.cidade, uf: pr.uf, lat: x.lat, lng: x.lng, place_id: x.id, localizacao: 'Google', local_google_em: hoje(), google_conferido_em: agora,
-      situacao_rota: 'Na rota', origem: 'Google (pôr na rota)', fonte: 'Google Maps, posto na rota pelo app', confianca: 'Aberto no Google', criado_no_app: true, criado_por: D.usuario.id, criado_por_nome: D.usuario.nome, criado_em: agora });
-    x.ja = pid; GL[x.id] = GL[x.id] && GL[x.id].st === 'ok' ? GL[x.id] : { st: 'ok', nome: x.nome, end: x.end, status: 'OPERATIONAL', em: Date.now() };   // só na memória, para a linha "No Google"
+  const x = F.perto && F.perto.itens.find(i => i.id === id), mp = F.mapa; if (!x) return;
+  const fim = ' Ao chegar, registre a visita com o nome da fachada.';
+  if (mp && mp.montar && F.m) {   // montando a rota: o lugar entra nos escolhidos
+    const pid = pontoDoGoogle(x), a = F.m.mapaIds = F.m.mapaIds || []; if (!a.includes(pid)) a.push(pid);
+    mp.sel = pid; aviso('Escolhido para a rota.' + (aConfirmar(D.pontos[pid]) ? fim : '')); return atualizarMapa();
   }
-  const k = porNaRotaMelhor(r, pid);
+  if (mp && mp.previa && F.m && F.m.previa) {   // conferindo a rota: entra no lugar que menos aumenta o caminho
+    const pid = pontoDoGoogle(x); if (F.m.previa.ids.includes(pid)) return aviso('Este lugar já está na rota.');
+    const k = inserirNaPrevia(pid); reabrirRotaNoMapa(mp); Object.assign(mp, { sel: pid, ajustar: false });
+    aviso('Posto na rota: parada ' + (k + 1) + ', no lugar que menos aumenta o caminho.' + (aConfirmar(D.pontos[pid]) ? fim : '')); return atualizarMapa();
+  }
+  const r = rotaAtual();
+  if (!r) return aviso(rotasDoDia().length ? 'Abra primeiro, no Hoje, a rota em que quer pôr este lugar.' : 'Ainda não há rota hoje. Monte a rota primeiro, em Mais.');
+  if (x.ja && r.paradas.includes(x.ja)) return aviso('Este lugar já está na rota.');
+  const pid = pontoDoGoogle(x), k = porNaRotaMelhor(r, pid);
   if (mp) Object.assign(mp, { sel: pid, caminho: null, pediu: false, falhou: false, pelasRuas: false });
-  aviso('Posto na rota: parada ' + (k + 1) + ', no lugar que menos aumenta o caminho.' + (aConfirmar(D.pontos[pid]) ? ' Ao chegar, registre a visita com o nome da fachada.' : ''));
+  aviso('Posto na ' + nomeRotaMin(r) + ': parada ' + (k + 1) + ', no lugar que menos aumenta o caminho.' + (aConfirmar(D.pontos[pid]) ? fim : ''));
   if (T.nome === 'mapa') atualizarMapa(); else desenhar(true);
 };
-// o cartão de um lugar do Google tocado no mapa da rota
-const cartaoLugarRota = x => '<div class="cartao" style="margin:10px 0 0"><div class="pnome">' + esc(x.nome) + '</div><div class="pend">' + esc(x.end || 'Sem endereço no Google') + '</div><div class="selos">' + selo('Não está na lista', 'at') + '</div>' +
-  '<div class="pb"><a class="b m" href="' + esc(linkLugar(x)) + '" target="_blank" rel="noopener" data-a="ext">' + ic('ir', 18) + 'Ir</a><button class="b p m" data-a="gNaRota:' + esc(x.id) + '">Pôr na rota</button></div>' +
-  '<div class="s" style="margin-top:6px">Do Google, o app guarda só o código do lugar e a localização. Ao chegar, registre a visita com o nome da fachada: aí ele vira um ponto da lista.</div></div>';
-const peRotaGoogle = () => { const mp = F.mapa; if (!mp || mp.tipo !== 'rota' || !USA_GOOGLE || !rotaAtual()) return ''; return mp.g ? pePerto() + '<button type="button" class="b t m g" style="margin-top:4px" data-a="rotaGoogleFim">Fechar a busca no Google</button>' : '<button class="b g" data-a="rotaGoogle">' + ic('busca', 18) + 'Procurar no Google para pôr na rota</button>'; };
 
 // ---------- Visita (VE3 do Cadenta): chegada com a localização, tipo, motivo, uma linha e o consumo levantado.
 // Nesta campanha o tipo e o motivo não aparecem na tela: o app grava sozinho (Prospecção, Retorno ou Entrega; motivo "Campanha Black Corte").
@@ -2626,9 +2843,19 @@ function blocoResultado(v) {
   if (v.res === 'voltar' && temHora()) h += '<div class="rot">Horário combinado (opcional)</div><input type="time" aria-label="Horário combinado para voltar" data-f="v.voltar_hora" value="' + esc(v.voltar_hora || '') + '"><div class="s" style="margin-top:4px">Só se o cliente marcou hora. O horário aparece na parada da rota.</div>';
   return h + lembreteConsumo(v);
 }
-AO_MUDAR['v.res'] = () => { F.v.mot = ''; if (F.v.res !== 'voltar') { F.v.voltar_em = ''; F.v.voltar_hora = ''; } };
+AO_MUDAR['v.res'] = () => { F.v.mot = ''; if (F.v.res !== 'voltar') { F.v.voltar_em = ''; F.v.voltar_hora = ''; } jaPeloMotivo(F.v); };
+// 1.7 (opção A, 24/11): "Não comprou: Já é cliente da Fabril" marca o ponto como cliente, igual a responder "Sim" em "Já compra da Fabril?".
+// O Sim aparece marcado na hora; se o motivo mudar, ele sai (a não ser que o vendedor tenha marcado o Sim por conta própria).
+const MOT_JA_CLIENTE = 'Já é cliente da Fabril';
+function jaPeloMotivo(v) {
+  if (!v || !v.cad) return; const p = D.pontos[v.ponto_id], quer = temClientes() && !!p && !statusCliente(p) && v.res === 'nao_comprou' && v.mot === MOT_JA_CLIENTE;
+  if (quer && v.cad.ja_cliente !== 'Sim') { v.cad.ja_cliente = 'Sim'; v.jaPeloMotivo = true; }
+  else if (!quer && v.jaPeloMotivo) { if (v.cad.ja_cliente === 'Sim') v.cad.ja_cliente = ''; v.jaPeloMotivo = false; }
+}
+AO_MUDAR['v.mot'] = () => jaPeloMotivo(F.v);
+AO_MUDAR['v.cad.ja_cliente'] = () => { if (F.v) F.v.jaPeloMotivo = false; };   // o vendedor mexeu na resposta: vale o que ele marcou
 AO_MUDAR['v.ent'] = () => { if (F.v.ent !== 'Entregar depois') F.v.ent_em = ''; };
-A.naoEncontrei = () => { const v = F.v; v.res = 'nao_encontrado'; v.mot = ''; v.voltar_em = ''; v.voltar_hora = ''; guardarRascunho(); desenhar(); const e = document.getElementById('passo-res'); if (e) e.scrollIntoView({ block: 'start' }); };
+A.naoEncontrei = () => { const v = F.v; v.res = 'nao_encontrado'; v.mot = ''; v.voltar_em = ''; v.voltar_hora = ''; jaPeloMotivo(v); guardarRascunho(); desenhar(); const e = document.getElementById('passo-res'); if (e) e.scrollIntoView({ block: 'start' }); };
 function faltas(v) {
   const f = [];
   if (v.res !== 'nao_encontrado' && !String(v.cad.nome || '').trim()) f.push('o nome do lugar');
@@ -2667,7 +2894,8 @@ TELAS.visita = () => {
       campo('Quem atendeu', 'v.cad.contato_nome', v.cad.contato_nome, 'type="text" autocomplete="off" autocapitalize="words" data-i="peV"') + '<div class="rot">Função de quem atendeu</div>' + chips('v.cad.contato_funcao', FUNCOES, v.cad.contato_funcao) + esp +
       campo('WhatsApp', 'v.cad.whatsapp', v.cad.whatsapp, 'type="tel" inputmode="tel" autocomplete="off" placeholder="(92) 9" data-i="peV"' + (v.semZap ? ' disabled' : '')) + '<div id="zap-rep">' + zapRepetido(v) + '</div>' +
       '<label class="marca" style="margin:-4px 0 10px"><input type="checkbox" data-f="v.semZap" data-r="1"' + (v.semZap ? ' checked' : '') + '><span>Não quis passar o número</span></label>' +
-      (p.cliente_fabril === 'Conferir' ? '<div class="rot">Este ponto já é cliente da Fabril?</div>' + chips('v.cad.ja_cliente', ['Sim', 'Não', 'Não sei'], v.cad.ja_cliente) + esp : '') +
+      (p.cliente_fabril === 'Conferir' ? '<div class="rot">Este ponto já é cliente da Fabril?</div>' + chips('v.cad.ja_cliente', ['Sim', 'Não', 'Não sei'], v.cad.ja_cliente) + esp :
+        temClientes() && !statusCliente(p) ? '<div class="rot">Já compra da Fabril? (se souber)</div>' + chips('v.cad.ja_cliente', ['Sim', 'Não'], v.cad.ja_cliente) + esp : '') +   // 1.7
       (v.mais || v.cad.cnpj || v.cad.email ? campo('CNPJ (se for emitir nota)', 'v.cad.cnpj', v.cad.cnpj, 'type="text" inputmode="numeric" autocomplete="off"') + campo('E-mail', 'v.cad.email', v.cad.email, 'type="email" inputmode="email" autocapitalize="none" autocomplete="off"') : '<button type="button" class="b t m" style="padding:0" data-a="maisDados">' + ic('mais', 18) + 'CNPJ e e-mail</button>') + blocoFoto('v'));
     c += passo('Consumo levantado', blocoConsumo(v), 'passo-con');
   }
@@ -2708,6 +2936,12 @@ A.salvarVisita = () => {
     if (g && v.usarGps && g.prec <= 100 && !v.corrigindo) { pt.lat_gps = g.lat; pt.lng_gps = g.lng; pt.gps_precisao_m = g.prec; pt.gps_em = g.em; muda = true; }
     if (v.semZap && falouCom(v)) cad.sem_whatsapp = true;   // só na visita: o ponto não tem esse campo
     Object.assign(cad, { endereco: pt.endereco || p.endereco || '', bairro: pt.bairro || p.bairro || '', cep: corrige(v) ? pt.cep || '' : p.cep || '', endereco_conferido: corrige(v) ? 'corrigido' : v.end.st === 'certo' ? 'certo' : '', endereco_pelo: v.end.st === 'gps' ? 'GPS' : v.end.st === 'corrigir' ? 'À mão' : '' });
+  }
+  // 1.7: virou cliente nesta visita (comprou, ou marcou que já compra da Fabril) e não tem vendedor: fica na carteira de quem registrou a visita (em dupla também)
+  if (!semPonto && !v.corrigindo && temClientes()) {
+    if (v.res === 'nao_comprou' && v.mot === MOT_JA_CLIENTE && !statusCliente(p) && pt.ja_cliente !== 'Sim' && p.ja_cliente !== 'Sim') { pt.ja_cliente = 'Sim'; cad.ja_cliente = 'Sim'; muda = true; }   // opção A: o motivo vale como o Sim
+    if (pt.ja_cliente === 'Sim') { pt.cliente_marcado_por = D.usuario.id; pt.cliente_marcado_em = new Date().toISOString(); muda = true; }
+    if ((v.res === 'comprou' || v.res === 'entregue' || pt.ja_cliente === 'Sim') && !p.carteira_id && !p.carteira_nome && !veioDasNotas(p)) { pt.carteira_id = D.usuario.id; pt.carteira_em = new Date().toISOString(); muda = true; }
   }
   if (muda) { pt.atualizado_por = D.usuario.id; enfileirar('pontos', pt, 'patch'); }
   // 1.6.5: a visita de um ponto fora da rota (o prospect cadastrado na rua, por exemplo) entra na rota de hoje de quem está nela, logo depois da última parada feita
@@ -2777,6 +3011,375 @@ A.salvarProspect = como => {
   F.pr = null; T = PILHA.pop() || { nome: 'hoje', p: {} };
   const trocou = lg.uf !== ufAtual(); if (trocou) { D.prefs.uf = lg.uf; salvar('prefs'); Object.assign(F.pt, { q: '', bairro: '', n: 40 }); F.sugUf = null; }   // cadastrou em outra cidade: o celular passa a trabalhar nela
   if (como === 'visita') { abrirVisita(id); if (trocou) aviso('Cidade de trabalho: ' + pracaDe(lg.uf).rot + '.'); } else { ir('ponto', { id }); aviso('Prospect salvo' + (trocou ? '. Cidade de trabalho: ' + pracaDe(lg.uf).rot : '') + (semSinal() ? '. Sobe quando o sinal voltar.' : '.')); }
+};
+
+// ---------- 1.7: clientes da Fabril, carteira e visita de rotina
+// Cliente é quem já comprou da Fabril. A última compra vem das notas fiscais (o gestor importa em Mais) ou de uma compra registrada no app.
+// Ativo: comprou nos últimos N dias (Regras; 90 na Fabril). Inativo: já comprou, mas faz mais tempo. O app calcula sozinho, todo dia.
+// Marcado à mão ("É cliente da Fabril"), sem data de compra: conta como ativo até alguém desmarcar.
+// Cliente ativo sai da rota da campanha (regra de 20/11), menos quem comprou na campanha: esse segue a recompra.
+// Carteira: o vendedor do cliente. Cliente sem vendedor que vira cliente pelo app (comprou ou foi marcado) fica com quem registrou a visita;
+// cliente que já tem vendedor não muda sozinho (só o gestor troca, e o banco garante); os que vêm das notas o gestor distribui (a nota sugere).
+// Visita de rotina: só cliente ativo da carteira de alguém do app; a cada N dias (padrão das Regras ou o do cliente), contando da última visita ou compra.
+const REGRAS_PADRAO = { id: 'empresa', dias_inativo: 90, visita_padrao: 30, linha: 'serra, faca', cnpjs_empresa: '', cidades: '', vendedores: {} };
+const regras = () => { const r = Object.assign({}, REGRAS_PADRAO), e = (D.regras && D.regras.empresa) || {}; for (const k in e) if (e[k] != null && e[k] !== '') r[k] = e[k]; return r; };   // valor vazio no banco: vale o padrão
+const diasInativo = () => +((D.regras && D.regras.empresa && D.regras.empresa.dias_inativo) || REGRAS_PADRAO.dias_inativo);
+// o banco já tem as colunas da carteira (comando 12)? E a tabela de Regras? Na demonstração, sempre
+const temClientes = () => MODO === 'demo' || !!(D.prefs.cols && D.prefs.cols['pontos.carteira_id']);
+const temRegras = () => MODO === 'demo' || !!(D.prefs.cols && D.prefs.cols['regras.id']);
+const diasDesde = d => Math.round((Date.parse(hoje() + 'T12:00:00') - Date.parse(String(d).slice(0, 10) + 'T12:00:00')) / 864e5);
+function compraNoApp(p) { const vs = IDX.v[p.id] || []; for (let i = vs.length - 1; i >= 0; i--) if (vs[i].resultado === 'comprou' || vs[i].resultado === 'entregue') return diaDe(vs[i].inicio); return null; }
+function ultimaCompra(p) { const a = p.ultima_compra ? String(p.ultima_compra).slice(0, 10) : null, b = compraNoApp(p); return !a ? b : !b ? a : a > b ? a : b; }
+function statusCliente(p) {
+  if (!p) return null;
+  const u = ultimaCompra(p); if (u) return diasDesde(u) <= diasInativo() ? 'ativo' : 'inativo';
+  if (p.ja_cliente === 'Sim') return 'ativo';
+  const cf = p.cliente_fabril || ''; return /^Ativo/.test(cf) ? 'ativo' : /^Inativo/.test(cf) ? 'inativo' : null;
+}
+const veioDasNotas = p => !!p.ultima_compra || /^(Ativo|Inativo)/.test(p.cliente_fabril || '');
+// cliente ativo que não comprou na campanha: fica fora da rota (é atendido pela carteira, com a visita de rotina)
+const foraPorSerCliente = p => statusCliente(p) === 'ativo' && !compraNoApp(p);
+const pessoaAtiva = id => !!id && !!D.equipe[id] && D.equipe[id].ativo !== false;
+const donoApp = p => pessoaAtiva(p.carteira_id) ? p.carteira_id : null;
+function nomeCarteira(p, cru) {
+  if (p.carteira_id) return D.equipe[p.carteira_id] ? (!cru && p.carteira_id === D.usuario.id ? 'Você' : D.equipe[p.carteira_id].nome) : 'Quem saiu da equipe';
+  return p.carteira_nome ? p.carteira_nome + ' (fora do app)' : '';
+}
+const semDono = p => !!statusCliente(p) && !p.carteira_id && !p.carteira_nome;
+const seloCliente = p => { const st = statusCliente(p); if (!st) return ''; const u = ultimaCompra(p); return selo((st === 'ativo' ? 'Cliente ativo' : 'Cliente inativo') + (u ? ', comprou em ' + dataBR(u).slice(0, 5) + (u.slice(0, 4) !== hoje().slice(0, 4) ? '/' + u.slice(2, 4) : '') : ''), st === 'ativo' ? 'ck' : 'cki'); };
+// ---------- visita de rotina
+const intervaloDe = p => +p.visita_a_cada || +regras().visita_padrao || 30;
+function ultimoContato(p) {
+  const vs = IDX.v[p.id] || [], uv = vs.length ? diaDe(vs[vs.length - 1].inicio) : null;
+  return [uv, p.ultima_compra && String(p.ultima_compra).slice(0, 10)].filter(Boolean).sort().pop() || null;   // a última visita ou a última compra (trocar o vendedor não zera a contagem)
+}
+function proximaVisita(p) {
+  if (!temClientes() || statusCliente(p) !== 'ativo' || !donoApp(p) || recompraEm(p)) return null;
+  const b = ultimoContato(p); return b ? diaMais(b, intervaloDe(p)) : hoje();
+}
+const rotinaDevida = p => { const pv = proximaVisita(p); return !!pv && pv <= hoje() && !feitaNoDia(p.id, hoje()); };
+// clientes com a visita de rotina vencida, da carteira dessas pessoas (sem quem: de todos), fora das rotas abertas hoje
+function rotinaDe(quem, menosRota) {
+  if (!temClientes()) return [];
+  const ocupados = new Set(); todasRotasDoDia().forEach(r => { if (r.id !== menosRota) r.paradas.forEach(i => ocupados.add(i)); });
+  return pontosAqui().filter(p => !ocupados.has(p.id) && (!quem || quem.includes(p.carteira_id)) && rotinaDevida(p))
+    .sort((a, b) => proximaVisita(a).localeCompare(proximaVisita(b)) || a.nome.localeCompare(b.nome, 'pt-BR'));
+}
+const resumoCarteiras = ps => { const n = {}; ps.forEach(p => { const k = nomeCarteira(p) || 'Sem vendedor'; n[k] = (n[k] || 0) + 1; }); return Object.keys(n).sort((a, b) => a.localeCompare(b, 'pt-BR')).map(k => k + ': ' + n[k]).join(' · '); };
+TELAS.rotina = () => {
+  const g = ehGestor(), rv = g ? rotinaDe(null) : rotinaDe([D.usuario.id]), gr = {};
+  rv.forEach(p => { const k = nomeCarteira(p) || 'Sem vendedor'; (gr[k] = gr[k] || []).push(p); });
+  const linha = p => '<button class="linha" data-a="ponto:' + esc(p.id) + '">' + ic('relogio') + '<div><b>' + esc(p.nome) + '</b><div class="s">' + esc([p.bairro, 'visita era ' + dataBR(proximaVisita(p)).slice(0, 5), 'a cada ' + intervaloDe(p) + ' dias'].filter(Boolean).join(' · ')) + '</div></div>' + ic('frente') + '</button>';
+  let c = '<div class="s" style="margin-bottom:10px">' + (g ? 'Clientes ativos das carteiras' : 'Clientes ativos da sua carteira') + ' com a visita de rotina vencida e fora das rotas de hoje. Para pôr na rota: em Montar a rota, ligue <b>Incluir clientes para visitar</b>; ou abra o cliente e toque em Pôr na rota.</div>';
+  c += !rv.length ? '<div class="vazio"><b>Nenhuma visita de rotina vencida</b>Os clientes da carteira estão em dia ou já estão numa rota de hoje.</div>' :
+    g ? Object.keys(gr).sort((a, b) => a.localeCompare(b, 'pt-BR')).map(k => '<div class="tit">' + esc(k) + ' · ' + gr[k].length + '</div><div class="lista">' + gr[k].map(linha).join('') + '</div>').join('') : '<div class="lista">' + rv.map(linha).join('') + '</div>';
+  return { titulo: 'Clientes para visitar', sub: plural(rv.length, 'cliente', 'clientes') + ' com a visita de rotina vencida', corpo: c };
+};
+// ---------- na ficha do ponto
+function cartaoCliente(p) {
+  if (!temClientes()) return '';
+  const st = statusCliente(p), g = ehGestor(), id = esc(p.id);
+  if (!st) return '<div class="cartao"><h2>' + ic('etiqueta') + 'Cliente da Fabril</h2><div class="s">Ainda não é cliente' + (p.cliente_fabril === 'Conferir' && !p.ja_cliente ? '. A lista diz que pode já ser: confira na visita' : '') + '.</div><div class="pb"><button class="b m" data-a="marcarCliente:' + id + '">' + ic('ok', 18) + 'É cliente da Fabril</button></div></div>';
+  const u = ultimaCompra(p), app = u && u === compraNoApp(p), pv = proximaVisita(p), dono = nomeCarteira(p);
+  const ls = [['Situação', st === 'ativo' ? 'Cliente ativo' : 'Cliente inativo (comprou há mais de ' + diasInativo() + ' dias)'],
+    ['Última compra', u ? dataBR(u) + (app ? ', registrada no app' : ', pela nota fiscal') : p.ja_cliente === 'Sim' ? 'Sem data: marcado à mão' + (p.cliente_marcado_por && D.equipe[p.cliente_marcado_por] ? ' por ' + D.equipe[p.cliente_marcado_por].nome : '') + (p.cliente_marcado_em ? ' em ' + dataBR(diaDe(p.cliente_marcado_em)) : '') : ''],
+    ['Vendedor da carteira', dono || 'Sem vendedor'],
+    ['Visita de rotina', st !== 'ativo' ? '' : !donoApp(p) ? (p.carteira_nome ? 'Não tem: o vendedor não usa o app' : 'Não tem: falta o vendedor') : recompraEm(p) ? 'Depois da recompra da campanha' : 'A cada ' + intervaloDe(p) + ' dias' + (p.visita_a_cada ? '' : ' (o padrão)') + (pv ? ' · ' + (pv <= hoje() ? 'vencida desde ' : 'próxima em ') + dataBR(pv).slice(0, 5) : '')],
+    ['Vendedor na última nota', g ? p.nota_vendedor : '']].filter(l => l[1]);
+  const bts = (g ? '<button class="b m" data-a="carteira:' + id + '">' + ic('gente', 18) + 'Trocar o vendedor</button>' + (st === 'ativo' ? '<button class="b m" data-a="intervalo:' + id + '">' + ic('relogio', 18) + 'Mudar o intervalo</button>' : '') : '') +
+    (p.ja_cliente === 'Sim' && !u ? '<button class="b m" data-a="desmarcarCliente:' + id + '">Não é cliente</button>' : '');
+  return '<div class="cartao"><h2>' + ic('etiqueta') + 'Cliente da Fabril</h2><dl class="kv">' + ls.map(l => '<dt>' + esc(l[0]) + '</dt><dd>' + esc(l[1]) + '</dd>').join('') + '</dl>' + (bts ? '<div class="pb pb4">' + bts + '</div>' : '') + '</div>';
+}
+// quem marca como cliente um ponto sem vendedor (que não veio das notas) fica com ele na carteira
+function linhaCarteiraPorMim(p, extra) { const q = Object.assign({}, p, extra); return semDono(q) && !veioDasNotas(q) ? { carteira_id: D.usuario.id, carteira_em: new Date().toISOString() } : {}; }
+A.marcarCliente = id => {
+  const p = D.pontos[id]; if (!p) return; const vira = foraPorSerCliente(Object.assign({}, p, { ja_cliente: 'Sim' })) && naRota(p);
+  confirmar('É cliente da Fabril?', 'O ponto passa a contar como cliente ativo' + (vira ? ' e sai da rota da campanha: cliente ativo é atendido pela carteira, com a visita de rotina' : '') + '.' + (semDono(Object.assign({}, p, { ja_cliente: 'Sim' })) && !veioDasNotas(p) ? ' Ele entra na sua carteira.' : ''), 'Marcar como cliente', () => {
+    const agora = new Date().toISOString(), ln = { id, ja_cliente: 'Sim', cliente_marcado_por: D.usuario.id, cliente_marcado_em: agora };
+    Object.assign(ln, linhaCarteiraPorMim(p, ln)); enfileirar('pontos', ln, 'patch'); desenhar(true); aviso('Marcado como cliente da Fabril.');
+  });
+};
+A.desmarcarCliente = id => confirmar('Não é cliente da Fabril?', 'O ponto deixa de contar como cliente.', 'Desmarcar', () => { enfileirar('pontos', { id, ja_cliente: 'Não', cliente_marcado_por: D.usuario.id, cliente_marcado_em: new Date().toISOString() }, 'patch'); desenhar(true); aviso('Desmarcado.'); });
+// só o gestor troca o vendedor da carteira e o intervalo da visita de rotina
+const gentesDaCarteira = () => Object.values(D.equipe).filter(x => x.ativo !== false).sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR'));
+A.carteira = id => {
+  if (!ehGestor()) return aviso('Só o gestor troca o vendedor da carteira.');
+  const p = D.pontos[id]; if (!p) return;
+  janela('<h2>Vendedor da carteira</h2><p class="s">' + esc(p.nome) + (p.nota_vendedor ? '. Na última nota: ' + esc(p.nota_vendedor) + '.' : '.') + '</p><div class="lista">' +
+    gentesDaCarteira().map(x => '<button class="linha" data-a="porCarteira:' + esc(id) + '~' + esc(x.user_id) + '">' + ic('gente') + '<div><b style="font-weight:600">' + esc(x.nome) + '</b></div>' + (p.carteira_id === x.user_id ? ic('ok', 18) : '') + '</button>').join('') +
+    (p.carteira_nome ? '<button class="linha" data-a="fechar">' + ic('gente') + '<div><b style="font-weight:600">' + esc(p.carteira_nome) + '</b><div class="s">Fora do app: continua assim</div></div>' + ic('ok', 18) + '</button>' : '') +
+    '<button class="linha" data-a="porCarteira:' + esc(id) + '~">' + ic('x') + '<div><b style="font-weight:600">Sem vendedor</b></div>' + (!p.carteira_id && !p.carteira_nome ? ic('ok', 18) : '') + '</button></div><div class="pb"><button class="b" data-a="fechar">Fechar</button></div>');
+};
+A.porCarteira = arg => { const [id, uid] = arg.split('~'); if (!ehGestor() || !D.pontos[id]) return; enfileirar('pontos', { id, carteira_id: uid || null, carteira_nome: null, carteira_em: new Date().toISOString() }, 'patch'); fecharJanela(); desenhar(true); aviso(uid ? 'Na carteira de ' + (D.equipe[uid] || {}).nome + '.' : 'Sem vendedor.'); };
+A.intervalo = id => {
+  if (!ehGestor()) return aviso('Só o gestor muda o intervalo.');
+  const p = D.pontos[id]; if (!p) return; const pd = +regras().visita_padrao || 30;
+  janela('<h2>Visita de rotina</h2><p class="s">De quanto em quanto tempo visitar ' + esc(p.nome) + '. O padrão da empresa (em Regras) é a cada ' + pd + ' dias.</p><div class="chips">' +
+    [[0, 'O padrão (' + pd + ' dias)'], [7, '7 dias'], [15, '15 dias'], [30, '30 dias'], [45, '45 dias'], [60, '60 dias'], [90, '90 dias']].map(o => '<button type="button" class="chip' + ((+p.visita_a_cada || 0) === o[0] ? ' at' : '') + '" data-a="porIntervalo:' + esc(id) + '~' + o[0] + '">' + o[1] + '</button>').join('') + '</div><div class="pb"><button class="b" data-a="fechar">Fechar</button></div>');
+};
+A.porIntervalo = arg => { const [id, d] = arg.split('~'); if (!ehGestor() || !D.pontos[id]) return; enfileirar('pontos', { id, visita_a_cada: +d || null }, 'patch'); fecharJanela(); desenhar(true); aviso(+d ? 'Visita a cada ' + d + ' dias.' : 'Visita no intervalo padrão.'); };
+// em lote: o gestor põe os clientes da lista filtrada na carteira de alguém (por exemplo, filtro Sem vendedor + um bairro)
+function botaoLote(ps) {
+  if (!ehGestor() || !temClientes()) return '';
+  const cs = ps.filter(p => statusCliente(p)); if (!cs.length || cs.length === ps.length && !filtrosDe(F.pt).some(k => /^(semdono|cativo|cinativo|carteira)$/.test(k)) && !F.pt.q && !F.pt.bairro) return '';
+  return '<button class="b t m" style="padding:0;margin:0 0 8px" data-a="loteCarteira">' + ic('gente', 18) + 'Pôr ' + (cs.length === 1 ? 'este cliente' : 'os ' + cs.length + ' clientes desta lista') + ' na carteira de alguém</button>';
+}
+A.loteCarteira = () => {
+  const cs = filtrarPontos(T.p && T.p.modo === 'visita').filter(p => statusCliente(p)); if (!cs.length) return;
+  janela('<h2>Pôr na carteira</h2><p class="s">' + plural(cs.length, 'cliente', 'clientes') + ' da lista. Escolha o vendedor.</p><div class="lista">' +
+    gentesDaCarteira().map(x => '<button class="linha" data-a="loteCarteiraDe:' + esc(x.user_id) + '">' + ic('gente') + '<div><b style="font-weight:600">' + esc(x.nome) + '</b></div>' + ic('frente', 18) + '</button>').join('') + '</div><div class="pb"><button class="b" data-a="fechar">Fechar</button></div>');
+};
+A.loteCarteiraDe = uid => {
+  const cs = filtrarPontos(T.p && T.p.modo === 'visita').filter(p => statusCliente(p)), x = D.equipe[uid]; if (!cs.length || !x) return;
+  confirmar('Pôr na carteira de ' + x.nome + '?', plural(cs.length, 'cliente vai', 'clientes vão') + ' para a carteira de ' + x.nome + '. Quem já tinha vendedor também muda.', 'Pôr na carteira', () => {
+    const agora = new Date().toISOString(); cs.forEach(p => enfileirar('pontos', { id: p.id, carteira_id: uid, carteira_nome: null, carteira_em: agora }, 'patch')); fecharJanela(); desenhar(true); aviso(plural(cs.length, 'cliente', 'clientes') + ' na carteira de ' + x.nome + '.');
+  });
+};
+// ---------- Regras (só o gestor): dias para virar inativo, intervalo padrão da visita de rotina e o que conta na importação das notas
+TELAS.regras = () => {
+  if (!ehGestor()) return { titulo: 'Regras', corpo: '<div class="vazio"><b>Só o gestor vê as Regras</b></div>' };
+  if (!temRegras()) return { titulo: 'Regras', corpo: '<div class="vazio"><b>Falta o comando 12 no Supabase</b>As Regras ficam guardadas no banco. Rode o comando 12_clientes.sql (passo a passo do guia) e toque em Atualizar os dados.</div>' };
+  const r = F.rg = F.rg || Object.assign({}, regras()), vs = Object.keys(r.vendedores || {}).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  let c = '<div class="cartao"><h2>Clientes</h2><div class="item" style="border:0;padding:0"><div><b>Vira inativo depois de</b><div class="s">Dias sem comprar. Antes disso é cliente ativo.</div></div>' + pm('rg.dias_inativo', r.dias_inativo, 30, 365, 15) + '</div>' +
+    '<div class="item" style="border:0;padding:12px 0 0"><div><b>Visita de rotina, a cada</b><div class="s">Dias, para os clientes ativos da carteira. Cada cliente pode ter o seu, na ficha.</div></div>' + pm('rg.visita_padrao', r.visita_padrao, 7, 120, 1) + '</div></div>';
+  c += '<div class="cartao"><h2>Importar notas</h2>' + campo('Palavras da linha de produtos (separadas por vírgula)', 'rg.linha', r.linha, 'type="text" autocomplete="off"') + '<div class="s" style="margin:-4px 0 10px">Só conta a nota com pelo menos um item com uma dessas palavras no nome. Pessoa física não entra.</div>' +
+    campo('CNPJs da empresa (separados por vírgula)', 'rg.cnpjs_empresa', r.cnpjs_empresa, 'type="text" inputmode="numeric" autocomplete="off"') + '<div class="s" style="margin:-4px 0 10px">Só conta a nota emitida por estes CNPJs. A primeira importação preenche.</div>' +
+    campo('Cidades (separadas por vírgula; vazio = as cidades que já têm pontos no app)', 'rg.cidades', r.cidades, 'type="text" autocomplete="off"') + '</div>';
+  if (vs.length) c += '<div class="cartao"><h2>Vendedores das notas</h2><div class="s" style="margin-bottom:6px">Na importação, o cliente sem vendedor no app ganha o vendedor da última nota, assim:</div>' + vs.map(k => '<div class="item"><div><b>' + esc(k) + '</b></div><span>' + esc(rotVendNota(r.vendedores[k])) + '</span></div>').join('') + '<div class="s" style="margin-top:6px">Para mudar, importe as notas de novo: a prévia deixa escolher.</div></div>';
+  return { titulo: 'Regras', sub: 'Clientes, visita de rotina e importação das notas', corpo: c, pe: '<button class="b p" data-a="salvarRegras">Salvar as regras</button>' };
+};
+const rotVendNota = v => !v || v === 'fora' ? 'fica com o nome (fora do app)' : v === 'sem' ? 'sem vendedor' : 'vai para ' + ((D.equipe[v] || {}).nome || 'alguém que saiu da equipe');
+A.regras = () => { F.rg = null; ir('regras'); };
+A.salvarRegras = () => {
+  const r = F.rg; if (!r || !ehGestor()) return;
+  const ln = { id: 'empresa', dias_inativo: +r.dias_inativo || 90, visita_padrao: +r.visita_padrao || 30, linha: String(r.linha || '').trim() || 'serra, faca',
+    cnpjs_empresa: String(r.cnpjs_empresa || '').split(/[,;\s]+/).map(digitos).filter(x => x.length === 14).join(', '), cidades: String(r.cidades || '').trim(), vendedores: r.vendedores || {} };
+  guardarRegras(ln); F.rg = null; voltar(); aviso('Regras salvas.');
+};
+function guardarRegras(ln) { D.regras = D.regras || {}; enfileirar('regras', Object.assign({}, (D.regras.empresa || {}), ln)); }
+
+// ---------- 1.7: importar as notas fiscais de venda (XML da NF-e). Só o gestor, em Mais.
+// O gestor escolhe os arquivos (XML ou ZIP) ou a pasta inteira. O app lê tudo no próprio aparelho, mostra a prévia e só grava quando ele confirma.
+// O XML da NF-e segue o mesmo padrão nacional em qualquer sistema (Sankhya, TOTVS, Omie, Bling...), por isso a importação serve para qualquer empresa.
+// Conta só nota de venda autorizada, emitida pelos CNPJs da empresa (Regras), sem devolução, com pelo menos um item da linha (palavras nas Regras).
+// Pessoa física (CPF) fica fora (Regras) e nem é guardada. Por cliente (CNPJ): a última compra, quantas notas e o vendedor da última nota que traz "Vendedor:".
+// Cliente que já está no app (mesmo CNPJ): atualiza a última compra; ganha vendedor só se ainda não tem. Cliente novo: entra como ponto, com os dados da nota.
+const LIMITE_LISTA = 40;
+// ZIP sem biblioteca: lê o diretório central e abre cada XML (guardado ou comprimido com deflate, pelo DecompressionStream do navegador)
+async function lerZip(buf) {
+  const dv = new DataView(buf), u8 = new Uint8Array(buf), sai = [], td = new TextDecoder('utf-8');
+  let e = -1; for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--) if (dv.getUint32(i, true) === 0x06054b50) { e = i; break; }
+  if (e < 0) throw new Error('Este ZIP não abriu. Confira se o arquivo veio inteiro.');
+  const n = dv.getUint16(e + 10, true); let p = dv.getUint32(e + 16, true);
+  for (let k = 0; k < n && p + 46 <= u8.length; k++) {
+    if (dv.getUint32(p, true) !== 0x02014b50) break;
+    const met = dv.getUint16(p + 10, true), tam = dv.getUint32(p + 20, true), nl = dv.getUint16(p + 28, true), xl = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true), off = dv.getUint32(p + 42, true);
+    const nome = td.decode(u8.subarray(p + 46, p + 46 + nl)); p += 46 + nl + xl + cl;
+    if (!/\.xml$/i.test(nome)) continue;
+    const ini = off + 30 + dv.getUint16(off + 26, true) + dv.getUint16(off + 28, true), dados = u8.subarray(ini, ini + tam);
+    let bytes = null;
+    if (met === 0) bytes = dados;
+    else if (met === 8 && typeof DecompressionStream !== 'undefined') bytes = new Uint8Array(await new Response(new Blob([dados]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+    if (bytes) sai.push({ nome, texto: td.decode(bytes) });
+  }
+  return sai;
+}
+// uma nota (ou um evento de cancelamento) a partir do texto do XML
+function lerNota(txt) {
+  let d; try { d = new DOMParser().parseFromString(txt, 'application/xml'); } catch (e) { return { erro: 'xml' }; }
+  if (!d || d.getElementsByTagName('parsererror').length) return { erro: 'xml' };
+  const um = (el, t) => el ? el.getElementsByTagNameNS('*', t)[0] || null : null, g = (el, t) => { const x = um(el, t); return x ? x.textContent.trim() : ''; };
+  const ev = um(d, 'infEvento'); if (ev && !um(d, 'infNFe')) return { evento: g(ev, 'tpEvento'), chave: g(ev, 'chNFe') };
+  const inf = um(d, 'infNFe'); if (!inf) return { erro: 'nao_nfe' };
+  const ide = um(inf, 'ide'), emit = um(inf, 'emit'), dest = um(inf, 'dest'), end = um(dest, 'enderDest'), prot = um(d, 'infProt');
+  const cpl = g(um(inf, 'infAdic'), 'infCpl'), vm = /Vendedor\s*:\s*(\d*)\s*-?\s*([^,;|\n]*)/i.exec(cpl), vend = vm ? vm[2].replace(/\s+/g, ' ').trim() : '';
+  return { chave: (inf.getAttribute('Id') || '').replace(/^NFe/, ''), tp: g(ide, 'tpNF'), fin: g(ide, 'finNFe'), dia: (g(ide, 'dhEmi') || g(ide, 'dEmi')).slice(0, 10),
+    emit: digitos(g(emit, 'CNPJ')), emitNome: g(emit, 'xNome'), cnpj: digitos(g(dest, 'CNPJ')), cpf: g(dest, 'CPF') ? 1 : 0, nome: g(dest, 'xNome'),
+    end: end ? { lgr: g(end, 'xLgr'), nro: g(end, 'nro'), cpl: g(end, 'xCpl'), bairro: g(end, 'xBairro'), mun: g(end, 'xMun'), uf: g(end, 'UF'), cep: g(end, 'CEP'), fone: g(end, 'fone') } : null,
+    itens: [...inf.getElementsByTagNameNS('*', 'det')].map(x => norm(g(x, 'xProd'))), vend: vend && !/^0?$/.test(vend) ? vend : '', cstat: prot ? g(prot, 'cStat') : '' };
+}
+// junta as notas por cliente, com as escolhas da prévia (empresas e vendedores)
+function juntarNotas(nf) {
+  const rg = regras(), emp = new Set(nf.emit), ws = String(rg.linha || '').split(',').map(x => norm(x)).filter(Boolean);
+  const cids = new Set(String(rg.cidades || '').trim() ? String(rg.cidades).split(',').map(x => norm(x)).filter(Boolean) : Object.values(D.pontos).map(p => norm(cidadeDe(p))));
+  const canc = new Set(nf.notas.filter(n => n.evento === '110111').map(n => n.chave)), vistas = new Set(), cli = {}, emits = {};
+  const ig = { arquivo: 0, repetida: 0, cancelada: 0, autorizada: 0, entrada: 0, devolucao: 0, empresa: 0, pf: 0, linha: 0, cidade: 0 };
+  let validas = 0, de = '', ate = '';
+  for (const n of nf.notas) {
+    if (n.erro) { ig.arquivo++; continue; } if (n.evento) continue;
+    if (vistas.has(n.chave)) { ig.repetida++; continue; } vistas.add(n.chave);
+    if (canc.has(n.chave)) { ig.cancelada++; continue; }
+    if (n.cstat && n.cstat !== '100' && n.cstat !== '150') { ig.autorizada++; continue; }
+    if (n.tp !== '1') { ig.entrada++; continue; }
+    if (n.fin === '4') { ig.devolucao++; continue; }
+    const em = emits[n.emit] = emits[n.emit] || { cnpj: n.emit, nome: n.emitNome, n: 0 }; em.n++;
+    if (!emp.has(n.emit)) { ig.empresa++; continue; }
+    if (!n.cnpj) { ig.pf++; continue; }   // pessoa física (CPF) não entra e nem é guardada
+    if (!n.itens.some(i => ws.some(w => i.includes(w)))) { ig.linha++; continue; }
+    validas++; if (!de || n.dia < de) de = n.dia; if (n.dia > ate) ate = n.dia;
+    const c = cli[n.cnpj] = cli[n.cnpj] || { cnpj: n.cnpj, n: 0, dia: '', vdia: '' }; c.n++;
+    if (n.dia >= c.dia) { c.dia = n.dia; c.nome = n.nome; c.end = n.end; }
+    if (n.vend && n.dia >= c.vdia) { c.vdia = n.dia; c.vend = n.vend; }
+  }
+  const porCnpj = {}; Object.values(D.pontos).forEach(p => { const d = digitos(p.cnpj); if (d.length === 14 && !porCnpj[d]) porCnpj[d] = p; });
+  const novos = [], atual = [], vends = {};
+  for (const c of Object.values(cli)) {
+    const p = porCnpj[c.cnpj], st = diasDesde(c.dia) <= diasInativo() ? 'ativo' : 'inativo';
+    // nota mais antiga que a última compra que o app já conhece: não é a última nota, então não sugere vendedor
+    const velha = !!(p && p.ultima_compra && c.dia < String(p.ultima_compra).slice(0, 10)), x = Object.assign(c, { p, st, velha }), precisa = (!p || (!p.carteira_id && !p.carteira_nome)) && !velha;
+    if (!p && !cids.has(norm(c.end && c.end.mun))) { ig.cidade++; continue; }
+    (p ? atual : novos).push(x);
+    if (precisa && c.vend) { const v = vends[c.vend] = vends[c.vend] || { nome: c.vend, n: 0 }; v.n++; }
+  }
+  novos.sort((a, b) => b.dia.localeCompare(a.dia)); atual.sort((a, b) => b.dia.localeCompare(a.dia));
+  return { validas, de, ate, ig, emits: Object.values(emits).sort((a, b) => b.n - a.n), novos, atual, vends: Object.values(vends).sort((a, b) => b.n - a.n) };
+}
+// o vendedor da nota vira quem no app: o que o gestor já escolheu antes (Regras), ou alguém da equipe com o mesmo primeiro nome; senão fica com o nome
+function vendPadrao(nome) {
+  const s = (regras().vendedores || {})[nome]; if (s && (s === 'fora' || s === 'sem' || pessoaAtiva(s))) return s;
+  const eq = Object.values(D.equipe).filter(x => x.ativo !== false), n = norm(nome), pn = n.split(' ')[0];
+  const igual = eq.filter(x => norm(x.nome) === n); if (igual.length === 1) return igual[0].user_id;
+  const xs = eq.filter(x => norm(x.nome).split(' ')[0] === pn); return xs.length === 1 ? xs[0].user_id : 'fora';
+}
+const vendDe = (nf, nome) => (nf.vmap && nf.vmap[nome]) || vendPadrao(nome);
+const carteiraDaNota = (nf, c) => { if (!c.vend || c.velha) return {}; const v = vendDe(nf, c.vend); return v === 'sem' ? {} : v === 'fora' ? { carteira_nome: c.vend } : { carteira_id: v }; };
+const rotCarteiraNota = (nf, c) => { const k = carteiraDaNota(nf, c); return k.carteira_id ? (D.equipe[k.carteira_id] || {}).nome || '' : k.carteira_nome ? k.carteira_nome + ' (fora do app)' : 'sem vendedor'; };
+// ---------- a tela
+TELAS.notas = () => {
+  const g = ehGestor(); if (!g) return { titulo: 'Importar notas', corpo: '<div class="vazio"><b>Só o gestor importa as notas</b></div>' };
+  if (!temClientes() || !temRegras()) return { titulo: 'Importar notas', corpo: '<div class="vazio"><b>Falta o comando 12 no Supabase</b>A importação grava a carteira e as Regras no banco. Rode o comando 12_clientes.sql (passo a passo do guia) e toque em Atualizar os dados.</div>' };
+  const nf = F.nf = F.nf || { etapa: 'escolher' };
+  if (nf.etapa === 'lendo' || nf.etapa === 'gravando') return { titulo: 'Importar notas', sub: nf.etapa === 'lendo' ? 'Lendo os arquivos' : 'Gravando', corpo: '<div class="vazio" id="nf-prog"><b>' + esc(nf.msg || 'Um momento…') + '</b>Não feche o app até terminar.</div>' };
+  if (nf.etapa === 'feito') return telaNotasFeito(nf);
+  if (nf.etapa === 'previa') return telaNotasPrevia(nf);
+  const ui = regras().ultima_importacao;
+  let c = '<div class="cartao"><h2>' + ic('baixar') + 'Notas fiscais de venda</h2><div class="s">Escolha os XML das notas (ou um ZIP com eles). Serve o que o sistema da empresa exporta. O app lê tudo neste aparelho, mostra a prévia e só grava quando você confirmar.</div>' +
+    '<div class="s" style="margin-top:8px">Conta só a nota de venda com item da linha (' + esc(regras().linha) + '), sem pessoa física. Pelo computador é mais rápido.</div>' +
+    '<label class="b p" style="margin-top:12px;width:100%">' + ic('baixar', 18) + 'Escolher os arquivos<input type="file" data-notas="1" accept=".xml,.zip,text/xml,application/xml,application/zip" multiple hidden></label>' +
+    '<label class="b g" style="margin-top:8px;width:100%">' + ic('pontos', 18) + 'Escolher a pasta inteira<input type="file" data-notas="1" webkitdirectory directory multiple hidden></label>' +
+    (MODO === 'demo' ? '<button class="b t" style="margin-top:6px" data-a="notasExemplo">Ver com notas de exemplo (só na demonstração)</button>' : '') + '</div>';
+  if (nf.erro) c += '<div class="cartao" style="border-color:var(--erro)"><b>Não deu para ler</b><div class="s">' + esc(nf.erro) + '</div></div>';
+  if (ui) c += '<div class="cartao"><h2>Última importação</h2><div class="s">' + esc(dataBR(diaDe(ui.em)) + (ui.por ? ', por ' + ui.por : '') + ': ' + plural(ui.notas || 0, 'nota', 'notas') + (ui.de ? ' de ' + dataBR(ui.de) + ' a ' + dataBR(ui.ate) : '') + '; ' + plural(ui.novos || 0, 'cliente novo', 'clientes novos') + ' e ' + plural(ui.atualizados || 0, 'atualizado', 'atualizados') + '.') + '</div></div>';
+  c += '<button class="b t m" style="padding:0" data-a="regras">' + ic('lapis', 18) + 'Regras: dias para inativo, linha de produtos, CNPJs</button>';
+  return { titulo: 'Importar notas', sub: 'Atualiza os clientes da Fabril', corpo: c };
+};
+function telaNotasPrevia(nf) {
+  const r = juntarNotas(nf), ig = r.ig, sem = nf.emit.length === 0;
+  const linhaC = (c, novo) => '<div class="item"><div><b>' + esc(novo ? c.nome || c.cnpj : c.p.nome) + '</b><div class="s">' + esc([novo ? [c.end && c.end.bairro, c.end && c.end.mun].filter(Boolean).join(', ') : (c.p.bairro || ''), 'comprou em ' + dataBR(c.dia), c.st === 'ativo' ? 'ativo' : 'inativo', novo || (!c.p.carteira_id && !c.p.carteira_nome) ? (c.velha ? 'sem vendedor: a nota é anterior à última compra' : 'vendedor: ' + rotCarteiraNota(nf, c)) : 'vendedor: ' + nomeCarteira(c.p) + ' (continua)'].filter(Boolean).join(' · ')) + '</div></div></div>';
+  let c = '<div class="nums"><div class="num"><b>' + nf.arquivos + '</b><span>arquivos lidos</span></div><div class="num"><b>' + r.validas + '</b><span>notas que contam</span></div><div class="num"><b>' + (r.novos.length + r.atual.length) + '</b><span>clientes</span></div></div>';
+  if (r.de) c += '<div class="s" style="margin:-4px 0 10px">Notas de ' + dataBR(r.de) + ' a ' + dataBR(r.ate) + '.</div>';
+  c += '<div class="cartao"><h2>Empresas que emitiram</h2><div class="s" style="margin-bottom:6px">Marque as empresas da conta. Nota de outra empresa não conta.</div><div class="chips">' +
+    r.emits.map(e => '<button type="button" class="chip' + (nf.emit.includes(e.cnpj) ? ' at' : '') + '" aria-pressed="' + nf.emit.includes(e.cnpj) + '" data-a="nfEmit:' + esc(e.cnpj) + '">' + esc((e.nome || e.cnpj) + ' · ' + plural(e.n, 'nota', 'notas')) + '</button>').join('') + '</div>' +
+    (sem ? '<div class="s" style="margin-top:6px;color:var(--erro)">Marque pelo menos uma empresa.</div>' : '') + '</div>';
+  if (r.vends.length) c += '<div class="cartao"><h2>Vendedor das notas</h2><div class="s" style="margin-bottom:6px">Cliente sem vendedor no app fica com o vendedor da última nota. Quem já tem vendedor no app continua com ele.</div>' +
+    r.vends.map(v => '<div class="item"><div><b>' + esc(v.nome) + '</b><div class="s">' + plural(v.n, 'cliente', 'clientes') + '</div></div><label class="c" style="margin:0;min-width:150px"><select data-f="nf.vmap.' + esc(v.nome) + '" data-r="1" aria-label="Vendedor no app">' +
+      gentesDaCarteira().map(x => '<option value="' + esc(x.user_id) + '"' + (vendDe(nf, v.nome) === x.user_id ? ' selected' : '') + '>' + esc(x.nome) + '</option>').join('') +
+      '<option value="fora"' + (vendDe(nf, v.nome) === 'fora' ? ' selected' : '') + '>Fica com o nome (fora do app)</option><option value="sem"' + (vendDe(nf, v.nome) === 'sem' ? ' selected' : '') + '>Sem vendedor</option></select></label></div>').join('') + '</div>';
+  c += '<div class="tit">Clientes novos · ' + r.novos.length + '</div>' + (r.novos.length ? '<div class="cartao">' + r.novos.slice(0, LIMITE_LISTA).map(x => linhaC(x, true)).join('') + (r.novos.length > LIMITE_LISTA ? '<div class="s" style="margin-top:6px">e mais ' + (r.novos.length - LIMITE_LISTA) + '.</div>' : '') +
+    '<div class="s" style="margin-top:6px">Entram com a razão social e o endereço da nota, sem localização no mapa. Depois, Conferir a lista no Google acha o lugar.</div></div>' : '<div class="s">Nenhum: todos os clientes já estão no app.</div>');
+  c += '<div class="tit">Já estão no app · ' + r.atual.length + '</div>' + (r.atual.length ? '<div class="cartao">' + r.atual.slice(0, LIMITE_LISTA).map(x => linhaC(x, false)).join('') + (r.atual.length > LIMITE_LISTA ? '<div class="s" style="margin-top:6px">e mais ' + (r.atual.length - LIMITE_LISTA) + '.</div>' : '') + '<div class="s" style="margin-top:6px">A última compra é atualizada.</div></div>' : '<div class="s">Nenhum.</div>');
+  const ns = [[ig.pf, 'nota de pessoa física', 'notas de pessoa física'], [ig.linha, 'nota sem item da linha', 'notas sem item da linha'], [ig.devolucao, 'nota de devolução', 'notas de devolução'], [ig.entrada, 'nota de entrada', 'notas de entrada'], [ig.empresa, 'nota de empresa não marcada', 'notas de empresa não marcada'],
+    [ig.cancelada, 'nota cancelada', 'notas canceladas'], [ig.autorizada, 'nota não autorizada', 'notas não autorizadas'], [ig.repetida, 'nota repetida', 'notas repetidas'], [ig.arquivo, 'arquivo que não é nota', 'arquivos que não são nota']].filter(x => x[0]);
+  if (ns.length || ig.cidade) c += '<div class="tit">Não entram</div><div class="cartao"><div class="s">' + esc(ns.map(x => plural(x[0], x[1], x[2])).concat(ig.cidade ? [plural(ig.cidade, 'cliente novo de outra cidade', 'clientes novos de outras cidades')] : []).join('; ')) + '.</div></div>';
+  const pode = !sem && (r.novos.length || r.atual.length);
+  return { titulo: 'Importar notas', sub: 'Prévia: nada foi gravado ainda', corpo: c, pe: '<div class="duas"><button class="b" data-a="notasDeNovo">Escolher outros</button><button class="b p" data-a="gravarNotas"' + (pode ? '' : ' disabled') + '>Gravar ' + plural(r.novos.length + r.atual.length, 'cliente', 'clientes') + '</button></div>' };
+}
+function telaNotasFeito(nf) {
+  const x = nf.feito, nn = x.novos;
+  let c = '<div class="vazio" style="border-style:solid"><b>Notas importadas</b>' + plural(x.atualizados, 'cliente atualizado', 'clientes atualizados') + ' e ' + plural(nn, 'cliente novo', 'clientes novos') + '.</div>';
+  if (nn && USA_GOOGLE) c += '<button class="b p" style="margin-top:10px" data-a="conferir">' + ic('alvo', 18) + 'Achar no Google os ' + plural(nn, 'cliente novo', 'clientes novos') + '</button>';
+  else if (nn) c += '<div class="s" style="margin-top:10px">Os clientes novos ainda não têm localização' + (MODO === 'demo' ? '. No app publicado, o botão Conferir no Google acha o lugar de cada um.' : ': quando a chave do Google estiver no app, Conferir a lista no Google acha o lugar.') + '</div>';
+  c += '<button class="b g" style="margin-top:8px" data-a="verClientes">' + ic('pontos', 18) + 'Ver os clientes ativos</button>';
+  return { titulo: 'Importar notas', sub: 'Pronto', corpo: c };
+}
+A.notas = () => { F.nf = { etapa: 'escolher' }; ir('notas'); };
+A.notasDeNovo = () => { F.nf = { etapa: 'escolher' }; desenhar(); };
+A.verClientes = () => { F.pt = { q: '', f: ['cativo'], bairro: '', n: 40, perto: false }; PILHA.length = 0; ir('pontos', {}, true); };
+A.nfEmit = cnpj => { const nf = F.nf; if (!nf) return; nf.emit = nf.emit.includes(cnpj) ? nf.emit.filter(x => x !== cnpj) : nf.emit.concat(cnpj); desenhar(true); };
+const pintarProg = msg => { F.nf.msg = msg; const el = document.getElementById('nf-prog'); if (el) el.firstChild.textContent = msg; };
+async function lerArquivosNotas(files) {
+  const fs = [...(files || [])].filter(f => /\.(xml|zip)$/i.test(f.name)); if (!fs.length) { F.nf = { etapa: 'escolher', erro: 'Nenhum arquivo XML ou ZIP entre os escolhidos.' }; return desenhar(); }
+  F.nf = { etapa: 'lendo', msg: 'Abrindo os arquivos…' }; desenhar();
+  const notas = []; let arquivos = 0;
+  try {
+    for (const f of fs) {
+      const textos = /\.zip$/i.test(f.name) ? await lerZip(await f.arrayBuffer()) : [{ nome: f.name, texto: await f.text() }];
+      for (const t of textos) { notas.push(lerNota(t.texto)); if (++arquivos % 100 === 0) { pintarProg('Lendo: ' + arquivos + ' arquivos'); await new Promise(r => setTimeout(r, 0)); } }
+    }
+  } catch (e) { F.nf = { etapa: 'escolher', erro: (e && e.message) || 'Erro ao ler os arquivos.' }; return desenhar(); }
+  abrirPreviaNotas(notas, arquivos);
+}
+function abrirPreviaNotas(notas, arquivos) {
+  const ja = String(regras().cnpjs_empresa || '').split(/[,;\s]+/).map(digitos).filter(x => x.length === 14);
+  const emits = {}; notas.forEach(n => { if (n.emit && n.tp === '1') emits[n.emit] = (emits[n.emit] || 0) + 1; });
+  // primeira importação: marca as empresas que emitiram as notas de venda; depois, as das Regras
+  const emit = ja.length ? ja : Object.keys(emits).sort((a, b) => emits[b] - emits[a]).slice(0, 3);
+  F.nf = { etapa: 'previa', notas, arquivos, emit, vmap: {} }; desenhar();
+}
+document.addEventListener('change', ev => { const el = ev.target; if (el && el.type === 'file' && el.dataset && el.dataset.notas) { const fs = [...(el.files || [])]; el.value = ''; lerArquivosNotas(fs); } });
+A.gravarNotas = async () => {
+  const nf = F.nf; if (!nf || nf.etapa !== 'previa' || !ehGestor()) return;
+  const r = juntarNotas(nf); if (!nf.emit.length || !(r.novos.length + r.atual.length)) return;
+  if (MODO === 'real' && semSinal()) return aviso('Sem sinal. A importação precisa de internet.');
+  // o banco decide com o que já está lá: a data da última compra só anda para frente, e o vendedor da nota só entra no cliente que está sem vendedor
+  const agora = new Date().toISOString(), atual = [], novos = [];
+  for (const c of r.atual) {
+    const k = !c.p.carteira_id && !c.p.carteira_nome ? carteiraDaNota(nf, c) : {};
+    atual.push({ id: c.p.id, ultima_compra: c.dia, notas_fiscais: c.n, nota_vendedor: c.vend || null, cliente_fabril: c.st === 'ativo' ? 'Ativo' : 'Inativo', carteira_id: k.carteira_id || null, carteira_nome: k.carteira_nome || null });
+  }
+  for (const c of r.novos) {
+    const e = c.end || {}, nome = nomeDaRazao(c.nome) || c.cnpj, k = carteiraDaNota(nf, c);
+    novos.push({ id: 'NF-' + c.cnpj, nome, nome_lista: nome, razao_social: c.nome || null, cnpj: c.cnpj, tipo: 'Cliente da Fabril', endereco: [e.lgr, e.nro].filter(Boolean).join(', ') + (e.cpl ? ' - ' + e.cpl : '') || null,
+      bairro: e.bairro || null, cidade: e.mun || CIDADE_BASE, uf: e.uf || UF_BASE, cep: e.cep || null, telefone: e.fone || null, lat: null, lng: null, localizacao: 'Sem coordenada',
+      situacao_rota: c.st === 'ativo' ? 'Fora da rota — cliente ativo' : 'Na rota', cliente_fabril: c.st === 'ativo' ? 'Ativo' : 'Inativo', ultima_compra: c.dia, notas_fiscais: c.n, nota_vendedor: c.vend || null, nota_importada_em: agora,
+      origem: 'Notas fiscais da empresa', fonte: 'Nota fiscal', confianca: 'Nota fiscal', observacao: 'Veio das notas fiscais. O nome é o da razão social: confirme o nome da fachada na visita.',
+      carteira_id: k.carteira_id || null, carteira_nome: k.carteira_nome || null, carteira_em: k.carteira_id || k.carteira_nome ? agora : null });
+  }
+  const todos = novos.map(l => ['n', l]).concat(atual.map(l => ['a', l])); let feitos = 0;
+  nf.etapa = 'gravando'; nf.msg = 'Gravando ' + plural(todos.length, 'cliente', 'clientes') + '…'; desenhar();
+  try {
+    // em partes de 250 clientes: cada parte grava inteira ou nada (importar de novo não duplica)
+    for (let i = 0; i < todos.length; i += 250) {
+      const pt = todos.slice(i, i + 250); await api.importarNotas(pt.filter(x => x[0] === 'n').map(x => x[1]), pt.filter(x => x[0] === 'a').map(x => x[1]));
+      feitos += pt.length; pintarProg('Gravando: ' + feitos + ' de ' + todos.length);
+    }
+  } catch (e) {
+    nf.etapa = 'previa'; desenhar(); const ja = feitos ? 'Parte foi gravada (' + feitos + ' de ' + todos.length + ')' : 'Nada foi gravado';
+    return aviso((e.rede ? 'Sem sinal. ' : 'Não deu para gravar: ' + (e.message || 'erro') + '. ') + ja + '; tente de novo: o que já foi gravado não duplica.');
+  }
+  // a cópia deste aparelho, com as mesmas regras do banco (a próxima sincronização traz o que ficou lá)
+  atual.forEach(l => {
+    const p = D.pontos[l.id]; if (!p) return; const ant = p.ultima_compra ? String(p.ultima_compra).slice(0, 10) : '', anda = !ant || l.ultima_compra >= ant, livre = !p.carteira_id && !p.carteira_nome;
+    Object.assign(p, { ultima_compra: anda ? l.ultima_compra : ant, notas_fiscais: Math.max(+p.notas_fiscais || 0, l.notas_fiscais || 0), nota_importada_em: agora },
+      anda && l.nota_vendedor ? { nota_vendedor: l.nota_vendedor } : {}, anda && !/\(rede\)/.test(p.cliente_fabril || '') ? { cliente_fabril: l.cliente_fabril } : {},
+      livre && (l.carteira_id || l.carteira_nome) ? { carteira_id: l.carteira_id, carteira_nome: l.carteira_nome, carteira_em: agora } : {});
+  });
+  novos.forEach(l => { if (!D.pontos[l.id]) D.pontos[l.id] = Object.assign({}, l); }); reindexar(); salvar('pontos');
+  const vs = Object.assign({}, regras().vendedores || {}); r.vends.forEach(v => { vs[v.nome] = vendDe(nf, v.nome); });
+  guardarRegras({ id: 'empresa', cnpjs_empresa: nf.emit.join(', '), vendedores: vs, ultima_importacao: { em: agora, por: D.usuario.nome, notas: r.validas, de: r.de, ate: r.ate, novos: r.novos.length, atualizados: r.atual.length } });
+  F.nf = { etapa: 'feito', feito: { novos: r.novos.length, atualizados: r.atual.length } }; desenhar();
+};
+// o nome do ponto novo: a razão social sem LTDA, ME, EPP e afins (o nome da fachada se confirma na visita)
+const nomeDaRazao = s => String(s || '').replace(/\s+-\s+(ME|EPP|EIRELI)\b.*$/i, '').replace(/\b(LTDA|ME|EPP|EIRELI|S\/?A|MEI)\.?$/i, '').replace(/[\s.,-]+$/, '').replace(/\s+/g, ' ').trim()
+  .toLowerCase().replace(/(^|\s)\S/g, x => x.toUpperCase()).replace(/\b(De|Da|Do|Das|Dos|E)\b/g, x => x.toLowerCase());
+// ---------- demonstração: notas de exemplo, no mesmo formato do XML de verdade (com clientes que já estão no app e clientes novos)
+A.notasExemplo = () => {
+  if (MODO !== 'demo') return;
+  const xs = [], emitE = '99999999000191', dia = n => diaMais(hoje(), -n), dem = Object.values(D.pontos).filter(p => p.cnpj);
+  const nota = (k, o) => '<?xml version="1.0" encoding="UTF-8"?><nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00"><NFe><infNFe Id="NFe' + String(k).padStart(44, '0') + '" versao="4.00"><ide><tpNF>' + (o.tp || '1') + '</tpNF><finNFe>' + (o.fin || '1') + '</finNFe><dhEmi>' + o.dia + 'T10:00:00-04:00</dhEmi></ide>' +
+    '<emit><CNPJ>' + (o.emit || emitE) + '</CNPJ><xNome>' + (o.emitNome || 'FABRIL DE EXEMPLO LTDA') + '</xNome></emit><dest>' + (o.cpf ? '<CPF>00000000000</CPF>' : '<CNPJ>' + o.cnpj + '</CNPJ>') + '<xNome>' + o.nome + '</xNome><enderDest><xLgr>' + (o.rua || 'Rua de Exemplo') + '</xLgr><nro>' + (o.nro || '100') + '</nro><xBairro>' + (o.bairro || 'Cachoeirinha') + '</xBairro><xMun>' + (o.mun || 'Manaus') + '</xMun><UF>' + (o.uf || 'AM') + '</UF><CEP>69000000</CEP></enderDest></dest>' +
+    (o.itens || ['SERRA FITA 1,85M']).map((x, i) => '<det nItem="' + (i + 1) + '"><prod><xProd>' + x + '</xProd><vProd>100.00</vProd></prod></det>').join('') + '<infAdic><infCpl>Vendedor: ' + (o.vend || '0 - ') + ' , Ref. EC 1</infCpl></infAdic></infNFe></NFe><protNFe><infProt><cStat>100</cStat></infProt></protNFe></nfeProc>';
+  let k = 1;
+  // os que já estão no app: um inativo continua inativo, outro volta a comprar (vira ativo), e o da visita de rotina continua com ela vencida
+  const diasDe = { 'EX-007': 200, 'EX-016': 25, 'EX-029': 130, 'EX-032': 50 };
+  dem.forEach((p, i) => { xs.push(nota(k++, { cnpj: digitos(p.cnpj), nome: (p.razao_social || p.nome).toUpperCase(), dia: dia(diasDe[p.id] || 60 + i * 7), vend: i % 3 === 0 ? '2 - VENDEDOR 2' : i % 3 === 1 ? '3 - FULANO' : '0 - ', bairro: p.bairro })); });
+  [['ACOUGUE BOI GORDO EXEMPLO LTDA', 'Japiim', 12, '2 - VENDEDOR 2'], ['MERCADINHO SAO JOSE EXEMPLO ME', 'Raiz', 45, '3 - FULANO'], ['CASA DE CARNES EXEMPLO EIRELI', 'Petrópolis', 150, '3 - FULANO'], ['FRIGORIFICO NORTE EXEMPLO LTDA', 'Educandos', 30, '0 - '], ['SUPER CARNES EXEMPLO LTDA', 'São Francisco', 200, '2 - VENDEDOR 2']]
+    .forEach((c, i) => { const cnpj = '99000000' + String(i + 1).padStart(4, '0') + '01'; xs.push(nota(k++, { cnpj, nome: c[0], bairro: c[1], dia: dia(c[2]), vend: c[3], itens: ['SERRA FITA 1,90M', 'FACA DESOSSA 6"'] })); xs.push(nota(k++, { cnpj, nome: c[0], bairro: c[1], dia: dia(c[2] + 40), vend: c[3] })); });
+  xs.push(nota(k++, { cnpj: '99000000999901', nome: 'ACOUGUE DE OUTRA CIDADE EXEMPLO LTDA', mun: 'Itacoatiara', dia: dia(10) }));
+  xs.push(nota(k++, { cpf: 1, nome: 'PESSOA FISICA EXEMPLO', dia: dia(5) }));
+  xs.push(nota(k++, { cnpj: '99000000888801', nome: 'INDUSTRIA DE EXEMPLO LTDA', dia: dia(8), itens: ['FITA ADESIVA TRANSPARENTE 48X100'] }));
+  xs.push(nota(k++, { cnpj: '99000000000101', nome: 'ACOUGUE BOI GORDO EXEMPLO LTDA', dia: dia(3), fin: '4' }));
+  const notas = xs.map(lerNota); abrirPreviaNotas(notas, xs.length);
 };
 
 // ---------- QR do WhatsApp da Fabril (o desenho do QR é gerado na montagem do app, então funciona sem sinal)
